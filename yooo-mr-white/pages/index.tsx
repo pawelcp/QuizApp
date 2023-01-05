@@ -1,8 +1,8 @@
 
-
+import Login from "../src/auth/login"
 
 export default function Home() {
   return (
-   <div>essa</div>
+   <Login />
   )
 }
