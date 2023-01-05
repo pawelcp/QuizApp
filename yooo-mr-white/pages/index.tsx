@@ -1,8 +1,12 @@
+import { 
+  
+  Text,
 
-import Login from "../src/auth/login"
+
+} from "@chakra-ui/react"
 
 export default function Home() {
   return (
-   <Login />
+   <Text>domek</Text>
   )
 }
