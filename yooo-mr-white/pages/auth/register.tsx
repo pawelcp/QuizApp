@@ -4,7 +4,9 @@ import {
     Input,
     Button,
     Text,
-    Center
+    Center,
+    Toast,
+    useToast
 
  } from "@chakra-ui/react"
 import { useRouter } from "next/router"
@@ -19,6 +21,7 @@ const Register = () => {
 
 
     const router = useRouter()
+    const toast = useToast()
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -28,29 +31,35 @@ const Register = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
-const registerInApp = () => { 
+const registerInApp = (e:React.FormEvent) => { 
+    e.preventDefault();
     if(password !== repeatPassword){
         setError(true)
+        toast({
+            title: `You have not same password`,
+            status: 'error',
+            isClosable: true,
+          })
         return
     }else{
         createUserWithEmailAndPassword(auth, email, password)
-        .then((userAuth) => {
+        .then((userAuth) => { 
             dispatch(
             login({
                 email: userAuth.user.email,
                 uid: userAuth.user.uid,
             })
+        
         )
     })
-    .catch((err) => {
+    .catch((err:any) => {
     alert(err);
   });
 };
 }
 console.log(user); 
     
-  
-    
+if(user!==null){router.push('/')}
 
     return(
         <Container maxW={"md"} py='24' px={{ base: '0', sm: '8' }}>
@@ -60,20 +69,22 @@ console.log(user);
                 </Center>
                 <Box>
                     <Center>
-                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setEmail(e.target.value)}} variant='flushed' fontSize='sm' type='text' placeholder="Email" w='80%' my='4'></Input>
+                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setEmail(e.target.value)}}  variant='flushed' fontSize='sm' type='text' placeholder="Email" w='80%' my='4'></Input>
                     </Center>
                     <Center>
-                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setPassword(e.target.value)}} variant='flushed' type='password' fontSize='sm' placeholder="Password" w='80%' my='4' zIndex='0'></Input>
+                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setPassword(e.target.value)}} borderColor={`${error&&'red'}`} variant='flushed' type='password' fontSize='sm' placeholder="Password" w='80%' my='4' zIndex='0'></Input>
                     </Center>
                     <Center>
-                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setRepeatPassword(e.target.value)}} variant='flushed' type='password' fontSize='sm'  placeholder="Repeat password" w='80%' my='4' zIndex='0'></Input>
+                        <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setRepeatPassword(e.target.value)}} borderColor={`${error&&'red'}`} variant='flushed' type='password' fontSize='sm'  placeholder="Repeat password" w='80%' my='4' zIndex='0'></Input>
                     </Center>
                 </Box>
                 <Center>
                     <Text onClick={()=>{router.push('/auth/login')}} fontSize='sm' fontWeight='bold' mt='4' cursor='pointer'>I have an account</Text>
                 </Center>
                 <Center>
-                    <Button onClick={registerInApp} py='6' px='10' my='10'>Sign up</Button>
+                    <Button onClick={registerInApp}
+                        py='6' px='10' my='10'>Sign up
+                    </Button>
                 </Center>
             </Box>    
         </Container>

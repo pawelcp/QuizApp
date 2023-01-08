@@ -4,7 +4,8 @@ import {
     Input,
     Button,
     Text,
-    Center
+    Center,
+    useToast,
 
  } from "@chakra-ui/react"
  import { useState } from "react"
@@ -21,6 +22,7 @@ import {
 const Login = () => {
 
     const router = useRouter()
+    const toast = useToast()
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -33,7 +35,7 @@ const Login = () => {
     
 
 
-    const loginToApp = (e:any) => {
+    const loginToApp = (e: any) => {
         e.preventDefault();
 
         signInWithEmailAndPassword(auth, email, password)
@@ -53,7 +55,7 @@ const Login = () => {
     const toggle = () => {
         setOpen(!open)
     }
-
+    if(user!==null){router.push('/')}
 
     return(
         <Container maxW={"md"} py='24' px={{ base: '0', sm: '8' }}>
@@ -78,7 +80,8 @@ const Login = () => {
                     <Text onClick={()=>{router.push('/auth/register')}} fontSize='sm' fontWeight='bold' mt='4' cursor='pointer'>Don't have an account?</Text>
                 </Center>
                 <Center>
-                    <Button onClick={loginToApp} py='6' px='10' my='10'>Log in</Button>
+                    <Button onClick={loginToApp} py='6' px='10' my='10'>Log in
+                    </Button>
                 </Center>
             </Box>    
         </Container>
