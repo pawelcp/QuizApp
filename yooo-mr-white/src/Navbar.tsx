@@ -25,7 +25,7 @@ const Navbar = () => {
         <Box shadow='lg' h='7vh' width='100%' left='0' bg='white'>
             <Flex h='100%'>
                 <Center>
-                <Text textAlign='end' fontWeight='bold' fontSize='3xl' w='25vw'>Fake Shop</Text>
+                <Text textAlign='end' fontWeight='bold' fontSize='3xl' w='25vw'>QUIZZYY</Text>
                 </Center>
                 <Spacer></Spacer>
                 <Center>

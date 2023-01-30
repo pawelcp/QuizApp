@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import { login, logout } from "../store/userSlice";
 import { db } from "../firebase";
 import Navbar from "../src/Navbar";
-import ProductsSection from "../src/ProductsSection";
+import Select from "../src/Select";
 
 export default function Home() {
   const user = useSelector(selectUser);
@@ -44,8 +44,8 @@ export default function Home() {
     <Box w='100vw'>
        <style>{'body { background-color: #F8F8FF }'}</style>
       <Navbar />
-      <ProductsSection />
-      <Button onClick={()=>{dispatch(logout())}}> log out </Button>
+      <Select />
+      {/* <Button onClick={()=>{dispatch(logout())}}> log out </Button> */}
     </Box>
   )
 }

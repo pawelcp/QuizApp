@@ -1,25 +1,24 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+export interface Category {
+    id:number,
+    name:string
+}
 
-export interface Product {
-    category: string,
-    description: string,
-    id: number,
-    image: string,
-    price: number,
-    rating: number[],
-    title: string,
+interface CategoryResponse {
+    trivia_categories: Category[]
 }
 
 
+
 export const productsApi = createApi({
-    reducerPath: 'productsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://fakestoreapi.com'}),
+    reducerPath: 'quizApi',
+    baseQuery: fetchBaseQuery({baseUrl: 'https://opentdb.com/'}),
     endpoints: (builder) => ({
-        getAllProducts: builder.query<Product[], void>({
-            query: () => 'products',
+        getCategory: builder.query<CategoryResponse, void>({
+            query: () => 'api_category.php',
         })
     })
 })
 
-export const {useGetAllProductsQuery} = productsApi
+export const {useGetCategoryQuery} = productsApi
