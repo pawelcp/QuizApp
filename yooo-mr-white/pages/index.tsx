@@ -1,27 +1,18 @@
-import { 
-  
-  Box,
-  Button,
-  Container,
-  Text,
-
-
-} from "@chakra-ui/react"
-import { useSelector } from 'react-redux';
+import { Box, Button, Container, Text } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import { useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { login, logout } from "../store/userSlice";
 import { db } from "../firebase";
-import Navbar from "../src/Navbar";
+import Navbar from "../src/components/Navbar";
 import Select from "../src/Select";
 
 export default function Home() {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
 
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
@@ -38,14 +29,12 @@ export default function Home() {
     });
   }, []);
 
-  
-  
   return (
-    <Box w='100vw'>
-       <style>{'body { background-color: #F8F8FF }'}</style>
+    <Box w="100vw">
+      <style>{"body { background-color: #F8F8FF }"}</style>
       <Navbar />
       <Select />
       {/* <Button onClick={()=>{dispatch(logout())}}> log out </Button> */}
     </Box>
-  )
+  );
 }
