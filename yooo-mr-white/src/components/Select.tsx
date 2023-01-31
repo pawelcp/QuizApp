@@ -1,12 +1,9 @@
 import {
   Box,
   Center,
-  Container,
   Flex,
   Grid,
   GridItem,
-  Image,
-  Spacer,
   Text,
   Modal,
   ModalBody,
@@ -14,12 +11,10 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalCloseButton,
   Button,
-  ButtonGroup,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useGetCategoryQuery } from "../../store/apiSlice";
 import { Category } from "../../store/apiSlice";
 
