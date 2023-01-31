@@ -14,16 +14,39 @@ import {
   ModalCloseButton,
   Button,
 } from "@chakra-ui/react";
-import {  useState } from "react";
+import { useState } from "react";
 import { useGetCategoryQuery } from "../../store/apiSlice";
 import { Category } from "../../store/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  pushCategoryId,
+  pushDifficultyLevel,
+  selectedCategory,
+} from "../../store/selectSlice";
 
 const Select = () => {
   const { data: categoryRes } = useGetCategoryQuery();
 
-  const [category, setCategory] = useState("");
-  const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [categoryId, setCategoryId] = useState<number>();
+  const [caategoryName, setCategoryName] = useState<string>("");
+  const [difficultyLevel, setDifficultyLevel] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const dispach = useDispatch();
+  const selectedCategoryId = useSelector(selectedCategory);
+
+  const pushSelected = () => {
+    dispach(
+      pushCategoryId({
+        categoryId: categoryId,
+      })
+    );
+    dispach(
+      pushDifficultyLevel({
+        difficultyLevel: difficultyLevel,
+      })
+    );
+  };
 
   return (
     <Box m="0 auto" w="90vw">
@@ -47,7 +70,6 @@ const Select = () => {
             categoryRes.trivia_categories.map((category: Category) => {
               return (
                 <GridItem
-                  key={category.id}
                   cursor="pointer"
                   rounded="xl"
                   bg="blackAlpha.800"
@@ -60,8 +82,9 @@ const Select = () => {
                   <Flex>
                     <Box
                       onClick={() => {
-                        setCategory(category.name);
+                        setCategoryId(category.id);
                         onOpen();
+                        setCategoryName(category.name);
                       }}
                       display="flex"
                       w="100%"
@@ -103,41 +126,64 @@ const Select = () => {
         <Modal isOpen={isOpen} onClose={onClose} size="2xl">
           <ModalOverlay />
           <ModalContent mt="30vh" pb="8">
-            <ModalHeader>Choose a difficulty level for {category}</ModalHeader>
+            <ModalHeader>
+              Choose a difficulty level for {caategoryName}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Flex justifyContent="center">
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("easy");
+                    setDifficultyLevel("Easy");
                   }}
+                  opacity="0.7"
                   fontSize="3xl"
                   p="8%"
                   colorScheme="green"
                   m="1"
+                  _active={{
+                    bg: "green",
+                    transform: "scale(0.98)",
+                    borderColor: "#bec3c9",
+                  }}
+                  _focus={{ bg: "green", opacity: "1" }}
                 >
                   Easy
                 </Button>
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("medium");
+                    setDifficultyLevel("Medium");
                   }}
+                  opacity="0.7"
                   fontSize="3xl"
                   px="5%"
                   py="8%"
                   colorScheme="orange"
+                  _active={{
+                    bg: "orange",
+                    transform: "scale(0.98)",
+                    borderColor: "#bec3c9",
+                  }}
+                  _focus={{ bg: "orange", opacity: "1" }}
                   m="1"
                 >
                   Medium
                 </Button>
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("hard");
+                    setDifficultyLevel("Hard");
                   }}
+                  opacity="0.7"
                   fontSize="3xl"
                   p="8%"
                   colorScheme="red"
                   m="1"
+                  _active={{
+                    bg: "red",
+                    transform: "scale(0.98)",
+                    borderColor: "#bec3c9",
+                  }}
+                  _focus={{ bg: "red", opacity: "1" }}
                 >
                   Hard
                 </Button>
@@ -145,6 +191,7 @@ const Select = () => {
             </ModalBody>
             <Flex justifyContent="center">
               <Button
+                onClick={pushSelected}
                 color="white"
                 bg="blackAlpha.800"
                 fontSize="2xl"
