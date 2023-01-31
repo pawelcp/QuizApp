@@ -22,18 +22,41 @@ import {
 import { useEffect, useState } from "react";
 import { useGetCategoryQuery } from "../store/apiSlice";
 import { Category } from "../store/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { pushCategoryId, pushDifficultyLevel, selectedCategory } from "../store/selectSlice";
 
 
 const Select = () => { 
     
   const {data: categoryRes} = useGetCategoryQuery()
 
-  const [category, setCategory] = useState<string>('')
+  const [categoryId, setCategoryId] = useState<number>()
+  const [caategoryName, setCategoryName] = useState<string>('')
   const [difficultyLevel, setDifficultyLevel] = useState<string>('')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  console.log(difficultyLevel);
   
+  const dispach = useDispatch()
+  const selectedCategoryId = useSelector(selectedCategory)
   
+
+  const pushSelected = () => {
+    dispach(
+      pushCategoryId({
+        categoryId: categoryId
+      })
+    )
+    dispach(
+      pushDifficultyLevel({
+        difficultyLevel: difficultyLevel
+      })
+    )
+  }
+  fetch('https://opentdb.com/api.php?amount=10&category=11&difficulty=medium')
+        .then(response => response.json())
+        .then(data => console.log(data))
+        console.log(categoryRes);
+        
+        
   
     return(
       <Box m='0 auto' w='90vw'>
@@ -46,7 +69,7 @@ const Select = () => {
                     return(
                         <GridItem cursor='pointer' rounded='xl' bg='blackAlpha.800' w='100%' h='10vh' shadow='2xl' _hover={{backgroundColor:'black'}} _focus={{backgroundColor:'black'}}>
                           <Flex >
-                            <Box onClick={()=>{setCategory(category.name); onOpen()}} display='flex' w='100%' h='10vh' alignItems='center' justifyContent='center' position='relative'>
+                            <Box onClick={()=>{setCategoryId(category.id); onOpen();setCategoryName(category.name)}} display='flex' w='100%' h='10vh' alignItems='center' justifyContent='center' position='relative'>
                               <Center>
                              {category.name.length < 15 && <Text  textAlign='center' p='1' fontSize='2xl' color='white' fontWeight='medium'>{category.name}</Text>}  
                              {category.name.length > 15 && <Text  textAlign='center' p='1' fontSize='md' color='white' fontWeight='medium'>{category.name}</Text>}
@@ -60,16 +83,16 @@ const Select = () => {
             <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
               <ModalOverlay />
               <ModalContent mt='30vh' pb='8'>
-                <ModalHeader >Choose a difficulty level for {category}</ModalHeader>
+                <ModalHeader >Choose a difficulty level for {caategoryName}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                   <Flex justifyContent='center'>
-                  <Button onClick={() => {setDifficultyLevel('easy')}} fontSize='3xl' p='8%' colorScheme='green' m='1' >Easy</Button>
-                  <Button onClick={() => {setDifficultyLevel('medium')}} fontSize='3xl'px='5%' py='8%' colorScheme='orange' m='1'  >Medium</Button>
-                  <Button onClick={() => {setDifficultyLevel('hard')}} fontSize='3xl'p='8%' colorScheme='red' m='1' >Hard</Button>
+                  <Button onClick={() => {setDifficultyLevel('Easy')}} opacity='0.7' fontSize='3xl' p='8%' colorScheme='green' m='1'  _active={{bg: 'green', transform: 'scale(0.98)',borderColor: '#bec3c9'}} _focus={{bg:'green', opacity:'1'}}>Easy</Button>
+                  <Button onClick={() => {setDifficultyLevel('Medium')}} opacity='0.7' fontSize='3xl'px='5%' py='8%' colorScheme='orange'_active={{bg: 'orange', transform: 'scale(0.98)',borderColor: '#bec3c9'}} _focus={{bg:'orange',opacity:'1'}} m='1'  >Medium</Button>
+                  <Button onClick={() => {setDifficultyLevel('Hard')}} opacity='0.7' fontSize='3xl'p='8%' colorScheme='red' m='1' _active={{bg: 'red', transform: 'scale(0.98)',borderColor: '#bec3c9'}} _focus={{bg:'red',opacity:'1'}}>Hard</Button>
                   </Flex>
                 </ModalBody>
-              <Flex justifyContent='center'><Button color='white' bg='blackAlpha.800' fontSize='2xl' p='5%' mt='2' w='10vw' _hover={{ bg: 'black' }}>Start</Button></Flex>
+              <Flex justifyContent='center'><Button onClick={pushSelected} color='white' bg='blackAlpha.800' fontSize='2xl' p='5%' mt='2' w='10vw' _hover={{ bg: 'black' }}>Start</Button></Flex>
               </ModalContent>
             </Modal>
           </Box>
