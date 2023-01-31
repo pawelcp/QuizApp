@@ -2,12 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { pushDifficultyLevel } from './selectSlice'
 
 export interface Category {
-    id:number,
-    name:string
+  id: number;
+  name: string;
 }
 
 interface CategoryResponse {
-    trivia_categories: Category[]
+  trivia_categories: Category[];
 }
 
 interface Results {
@@ -36,5 +36,3 @@ export const productsApi = createApi({
         })
     })
 })
-
-export const {useGetCategoryQuery} = productsApi
