@@ -10,9 +10,9 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "../../store/userSlice";
+import { login, selectUser } from "../../store/userSlice";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
@@ -20,33 +20,42 @@ const Login = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userAuth) => {
-        dispatch(
-          login({
-            email: userAuth.user.email,
-            uid: userAuth.user.uid,
-          })
-        );
-      })
-      .catch((err) => {
-        alert(err);
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      dispatch(login({ email: user.user.email, uid: user.user.uid }));
+      toast({
+        title: "Logged In.",
+        description: "Succesfully logged you in!.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "bottom-right",
       });
+    } catch (error) {
+      toast({
+        title: "Failed to logged!.",
+        description: "Something went wrong. Sorry !",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
-  const toggle = () => {
-    setOpen(!open);
+  const handlePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
   };
+
   if (user !== null) {
     router.push("/");
   }
@@ -73,7 +82,7 @@ const Login = () => {
               placeholder="Email"
               w="80%"
               my="8"
-            ></Input>
+            />
           </Center>
           <Box position="relative">
             <Center>
@@ -83,17 +92,17 @@ const Login = () => {
                 }}
                 variant="flushed"
                 fontSize="sm"
-                type={!open ? "text" : "password"}
+                type={!isPasswordVisible ? "text" : "password"}
                 placeholder="Password"
                 w="80%"
                 my="8"
                 zIndex="0"
-              ></Input>
+              />
               <Box position="absolute" cursor="pointer" right="16" zIndex="1">
-                {open !== false ? (
-                  <AiFillEye onClick={toggle} />
+                {isPasswordVisible === true ? (
+                  <AiFillEye onClick={handlePasswordVisibility} />
                 ) : (
-                  <AiFillEyeInvisible onClick={toggle} />
+                  <AiFillEyeInvisible onClick={handlePasswordVisibility} />
                 )}
               </Box>
             </Center>
@@ -112,7 +121,7 @@ const Login = () => {
             </Text>
           </Center>
           <Center>
-            <Button py="6" px="10" my="10">
+            <Button type="submit" py="6" px="10" my="10">
               Log in
             </Button>
           </Center>

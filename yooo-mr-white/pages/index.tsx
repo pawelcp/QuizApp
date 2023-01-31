@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../store/userSlice";
 import { db } from "../firebase";
 import Navbar from "../src/components/Navbar";
-import Select from "../src/Select";
+import Select from "../src/components/Select";
 
 export default function Home() {
   const user = useSelector(selectUser);

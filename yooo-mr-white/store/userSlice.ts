@@ -4,14 +4,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   user: {
-    email: string;
-    uid: string;
+    email: string | null;
+    uid: string | null;
   } | null;
 }
 
 interface PayloadTypes {
-  email: string;
-  uid: string;
+  email: string | null;
+  uid: string | null;
 }
 export const userSlice = createSlice({
   name: "user",
