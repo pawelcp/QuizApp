@@ -23,14 +23,17 @@ import {
   pushDifficultyLevel,
   selectedCategory,
 } from "../../store/selectSlice";
+import { useRouter } from "next/router";
 
 const Select = () => {
   const { data: categoryRes } = useGetCategoryQuery();
 
-  const [categoryId, setCategoryId] = useState<number>();
+  const [categoryId, setCategoryId] = useState<string>();
   const [caategoryName, setCategoryName] = useState<string>("");
   const [difficultyLevel, setDifficultyLevel] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  const router  = useRouter()
 
   const dispach = useDispatch();
   const selectedCategoryId = useSelector(selectedCategory);
@@ -82,7 +85,7 @@ const Select = () => {
                   <Flex>
                     <Box
                       onClick={() => {
-                        setCategoryId(category.id);
+                        setCategoryId(category.id.toString());
                         onOpen();
                         setCategoryName(category.name);
                       }}
@@ -134,7 +137,7 @@ const Select = () => {
               <Flex justifyContent="center">
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("Easy");
+                    setDifficultyLevel("easy");
                   }}
                   opacity="0.7"
                   fontSize="3xl"
@@ -152,7 +155,7 @@ const Select = () => {
                 </Button>
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("Medium");
+                    setDifficultyLevel("medium");
                   }}
                   opacity="0.7"
                   fontSize="3xl"
@@ -171,7 +174,7 @@ const Select = () => {
                 </Button>
                 <Button
                   onClick={() => {
-                    setDifficultyLevel("Hard");
+                    setDifficultyLevel("hard");
                   }}
                   opacity="0.7"
                   fontSize="3xl"
@@ -191,7 +194,7 @@ const Select = () => {
             </ModalBody>
             <Flex justifyContent="center">
               <Button
-                onClick={pushSelected}
+                onClick={()=>{pushSelected(); router.push('/quizview')}}
                 color="white"
                 bg="blackAlpha.800"
                 fontSize="2xl"

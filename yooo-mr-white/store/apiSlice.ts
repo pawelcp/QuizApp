@@ -19,7 +19,7 @@ interface Results {
   type: string;
 }
 
-interface QuizByDifficultyAndCategoryResponse {
+interface QuizByParamsResponse {
   response_code: number;
   results: Results[];
 }
@@ -31,10 +31,7 @@ export const productsApi = createApi({
     getCategory: builder.query<CategoryResponse, void>({
       query: () => "api_category.php",
     }),
-    getQuizByDifficultyAndCategory: builder.query<
-      QuizByDifficultyAndCategoryResponse,
-      any
-    >({
+    getQuizByParams: builder.query<QuizByParamsResponse, any>({
       query: ({ categoryId, difficultyLevel }) =>
         `api.php?amount=10&category=${categoryId}&difficulty=${difficultyLevel}`,
     }),
@@ -42,3 +39,4 @@ export const productsApi = createApi({
 });
 
 export const { useGetCategoryQuery } = productsApi;
+export const { useGetQuizByParamsQuery } = productsApi;

@@ -5,8 +5,12 @@ import type { RootState, AppDispatch } from './store'
 export const selectSlice = createSlice({
   name: 'select',
   initialState: {
-   categoryId: null,
-   difficultyLevel: '',
+   categoryId: {
+    categoryId: ''
+   },
+   difficultyLevel: {
+    difficultyLevel: ''
+  },
   },
   reducers: {
    pushCategoryId: (state, action) => {
