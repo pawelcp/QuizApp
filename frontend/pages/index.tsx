@@ -32,7 +32,7 @@ export default function Home() {
   }, []);
 
   return (
-    <Box padding='5' w="100vw" position="relative">
+    <Box onClick={onSlideOut} padding='5' w="100vw" position="relative">
       <Flex onClick={onSlideIn} cursor='pointer'  width='7' height='7' alignItems='center' justifyContent='center'>
         <IconContext.Provider value={{ size: "30px" }}>
           <GiHamburgerMenu />
