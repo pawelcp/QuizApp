@@ -6,7 +6,7 @@ interface SideBarItemProps {
 
 const SideBarItem = ({ itemName }: SideBarItemProps) => {
   return (
-    <Flex padding='3' className={styles["side-bar-item"]} w='52' gap='3' alignItems="center" justifyContent="space-between" >
+    <Flex paddingX='4' paddingY='2' className={styles["side-bar-item"]} w='52' gap='3' alignItems="center" justifyContent="space-between" >
       <Text as="b" fontSize="xl">
         {itemName}
       </Text>
