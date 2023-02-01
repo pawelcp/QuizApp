@@ -9,7 +9,6 @@ import { logout } from "../../../store/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { selectUser } from "../../../store/userSlice";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 interface SideBarProps {

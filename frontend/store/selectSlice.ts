@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { stat } from "fs";
 import type { RootState, AppDispatch } from './store'
 
 export const selectSlice = createSlice({

@@ -32,13 +32,13 @@ export default function Home() {
   }, []);
 
   return (
-    <Box onClick={onSlideOut} padding='5' w="100vw" position="relative">
+    <Box padding='5' w="100vw" position="relative">
       <Flex onClick={onSlideIn} cursor='pointer'  width='7' height='7' alignItems='center' justifyContent='center'>
         <IconContext.Provider value={{ size: "30px" }}>
           <GiHamburgerMenu />
         </IconContext.Provider>
       </Flex>
-      <SideBar isOpen={isOpen} onSlideOut={onSlideOut} />
+      <SideBar isOpen={isOpen} onSlideOut={onSlideOut} />      
       <style>{"body { background-color: #F8F8FF }"}</style>
       <Select />
     </Box>
