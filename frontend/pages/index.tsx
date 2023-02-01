@@ -38,7 +38,7 @@ export default function Home() {
           <GiHamburgerMenu />
         </IconContext.Provider>
       </Flex>
-      <SideBar isOpen={isOpen} onSlideOut={onSlideOut} />
+      <SideBar isOpen={isOpen} onSlideOut={onSlideOut} />      
       <style>{"body { background-color: #F8F8FF }"}</style>
       <Select />
     </Box>
