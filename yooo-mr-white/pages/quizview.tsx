@@ -1,6 +1,6 @@
 import { useCounter } from "@chakra-ui/counter"
 import { useCountdown } from '../src/hooks/useCountdown'
-import { Box, Flex, Progress, Text, CircularProgress, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Progress, Text, CircularProgress, Spacer, Grid, GridItem, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {useGetQuizByParamsQuery} from '../store/apiSlice'
 import { selectedCategory, selectedDifficultyLevel } from "../store/selectSlice";
@@ -16,10 +16,11 @@ export default function quiz(){
       categoryId: selectedCategoryId.categoryId,
       difficultyLevel: selectedDifficultyLvl.difficultyLevel
     });
-    console.log(quizRes?.results[0].question);
+    console.log(quizRes?.results[0].incorrect_answers[0]);
     
     
     return (
+      <Box>
         <Box
           rounded="xl"
           bg="white"
@@ -29,6 +30,7 @@ export default function quiz(){
           border='2px'
           mx='auto'
           shadow='xl'
+          mt='5%'
         >
           <Flex flexDirection="row" width="100%" alignItems="center">
             <Box w='70vw'>
@@ -40,6 +42,13 @@ export default function quiz(){
               <CircularProgress value={progress} w='10vw' size='100px' thickness='4px' />
             </Box>
           </Flex>
+        </Box>
+          <Grid mx='auto' mt='15%' w='90%' templateColumns='repeat(4, 1fr)' gap={2}>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='yellow'>{quizRes?.results[0].correct_answer}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='purple'>{quizRes?.results[0].incorrect_answers[0]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='blue'>{quizRes?.results[0].incorrect_answers[1]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='cyan'>{quizRes?.results[0].incorrect_answers[2]}</Button>
+          </Grid>
         </Box>
       );
 
