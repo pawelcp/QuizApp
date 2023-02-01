@@ -1,6 +1,6 @@
 import { useCounter } from "@chakra-ui/counter"
 import { useCountdown } from '../src/hooks/useCountdown'
-import { Box, Flex, Progress, Text, CircularProgress } from "@chakra-ui/react";
+import { Box, Flex, Progress, Text, CircularProgress, Spacer } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {useGetQuizByParamsQuery} from '../store/apiSlice'
 import { selectedCategory, selectedDifficultyLevel } from "../store/selectSlice";
@@ -16,23 +16,30 @@ export default function quiz(){
       categoryId: selectedCategoryId.categoryId,
       difficultyLevel: selectedDifficultyLvl.difficultyLevel
     });
-    
     console.log(quizRes?.results[0].question);
     
     
     return (
         <Box
-          rounded="md"
+          rounded="xl"
           bg="white"
           p={[1, 8]}
           my="4"
-          w="100%"
+          w="95%"
+          border='2px'
+          mx='auto'
+          shadow='xl'
         >
           <Flex flexDirection="row" width="100%" alignItems="center">
-            <CircularProgress value={progress} size='100px' thickness='4px' />
-            <Text>{`${minutes}:${seconds}`}</Text>
+            <Box w='70vw'>
+              <Text textAlign='center' fontSize='3xl'>{quizRes?.results[0].question.replace(/&#039;/,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"'").replace(/&quot;/, "'").replace(/&eacute;/, 'é').replace(/&rdquo;/, "'").replace(/&quot;/,"'")}</Text>
+            </Box>
+            <Spacer></Spacer>
+              <Text justifySelf='center' fontSize='2xl' fontWeight='bold' textAlign='center'>{`${seconds}`}</Text>
+            <Box w='10vw' right='5%' top='5%' alignItems='center' justifyItems='center'>
+              <CircularProgress value={progress} w='10vw' size='100px' thickness='4px' />
+            </Box>
           </Flex>
-          <Text>{quizRes?.results[0].question}</Text>
         </Box>
       );
 
