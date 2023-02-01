@@ -16,8 +16,8 @@ export default function quiz(){
       categoryId: selectedCategoryId.categoryId,
       difficultyLevel: selectedDifficultyLvl.difficultyLevel
     });
-    console.log(quizRes?.results[0].incorrect_answers[0]);
-    
+    console.log(quizRes?.results[0].question);
+    const resQuestion = quizRes?.results[0].question.replace(/&#039;/g,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"“").replace(/&eacute;/, 'é').replace(/&rdquo;/, "”").replace(/&quot;/,"'").replace(/&rsquo;/, "'").replace(/&lsquo;/,"'")
     
     return (
       <Box>
@@ -34,7 +34,7 @@ export default function quiz(){
         >
           <Flex flexDirection="row" width="100%" alignItems="center">
             <Box w='70vw'>
-              <Text textAlign='center' fontSize='3xl'>{quizRes?.results[0].question.replace(/&#039;/,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"'").replace(/&quot;/, "'").replace(/&eacute;/, 'é').replace(/&rdquo;/, "'").replace(/&quot;/,"'")}</Text>
+              <Text textAlign='center' fontSize='3xl'>{resQuestion}</Text>
             </Box>
             <Spacer></Spacer>
               <Text justifySelf='center' fontSize='2xl' fontWeight='bold' textAlign='center'>{`${seconds}`}</Text>
