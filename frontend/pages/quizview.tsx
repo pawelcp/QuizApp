@@ -10,15 +10,35 @@ export default function quiz(){
     const [progress, minutes, seconds] = useCountdown(0.2);
     const selectedCategoryId = useSelector(selectedCategory);
     const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
-
+    const [numberQuestion, setNumberQuestion] = useState(0)
+    const [shuffleAnswerr, setShuffleAnswerr] = useState<any>()
     
     const {data: quizRes} = useGetQuizByParamsQuery({
       categoryId: selectedCategoryId.categoryId,
       difficultyLevel: selectedDifficultyLvl.difficultyLevel
     });
-    console.log(quizRes?.results[0].question);
-    const resQuestion = quizRes?.results[0].question.replace(/&#039;/g,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"“").replace(/&eacute;/, 'é').replace(/&rdquo;/, "”").replace(/&quot;/,"'").replace(/&rsquo;/, "'").replace(/&lsquo;/,"'")
+    const resQuestion = quizRes?.results[numberQuestion].question.replace(/&#039;/g,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"“").replace(/&eacute;/, 'é').replace(/&rdquo;/, "”").replace(/&quot;/,"'").replace(/&rsquo;/, "'").replace(/&lsquo;/,"'")
     
+    const shuffleAnswers = () => { 
+      const shuffleAnswer = [
+        quizRes?.results[numberQuestion].correct_answer,
+        quizRes?.results[numberQuestion].incorrect_answers[0],
+        quizRes?.results[numberQuestion].incorrect_answers[1],
+        quizRes?.results[numberQuestion].incorrect_answers[2]
+      ]
+      setShuffleAnswerr(shuffleAnswer
+      .map((answer)=>({ sort: Math.random(), value: answer}))
+      .sort((a, b) => a.sort - b.sort)
+      .map((obj) => obj.value))
+      }
+      console.log(shuffleAnswerr);
+      
+    
+    
+    
+    
+    
+
     return (
       <Box>
         <Box
@@ -44,11 +64,12 @@ export default function quiz(){
           </Flex>
         </Box>
           <Grid mx='auto' mt='15%' w='90%' templateColumns='repeat(4, 1fr)' gap={2}>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='yellow'>{quizRes?.results[0].correct_answer}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='purple'>{quizRes?.results[0].incorrect_answers[0]}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='blue'>{quizRes?.results[0].incorrect_answers[1]}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='cyan'>{quizRes?.results[0].incorrect_answers[2]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='yellow'>{quizRes?.results[numberQuestion].correct_answer}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='purple'>{quizRes?.results[numberQuestion].incorrect_answers[0]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='blue'>{quizRes?.results[numberQuestion].incorrect_answers[1]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='cyan'>{quizRes?.results[numberQuestion].incorrect_answers[2]}</Button>
           </Grid>
+          <Button onClick={()=>{if(numberQuestion<9){ setNumberQuestion(numberQuestion +1);shuffleAnswers()}}}>qweqwe</Button>
         </Box>
       );
 
