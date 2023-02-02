@@ -35,22 +35,24 @@ export default function Home() {
   }, []);
 
   return (
-    <Flex maxHeight='full'>
+    <Flex style={{minHeight: '100vh'}}>
       {isLargerThan900 ? (
         ""
       ) : (
-        <Flex
+        <Box
+          position='fixed'
           onClick={onSlideIn}
           cursor="pointer"
           width="7"
           height="7"
           alignItems="center"
+          padding='3'
           justifyContent="center"
         >
           <IconContext.Provider value={{ size: "30px" }}>
             <GiHamburgerMenu />
           </IconContext.Provider>
-        </Flex>
+        </Box>
       )}
       {!isLargerThan900 ? (
         <SideBarMobile isOpen={isOpen} onSlideOut={onSlideOut} />

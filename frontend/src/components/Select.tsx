@@ -52,21 +52,20 @@ const Select = () => {
   };
 
   return (
-    <Box width="full" backgroundColor="#BBC3D7" paddingX="7">
+    <Box width="full" backgroundColor="#FFF" paddingX="7">
       <Center>
         <Text
           width="full"
           textAlign="center"
           marginY="28"
           as="b"
-          color="#FFF"
           fontSize="4xl"
         >
           Choose category for your quizz
         </Text>
       </Center>
 
-      {/* <Box w="full">
+      <Box w="full">
         <Grid
           mt="12"
           templateColumns={{
@@ -219,7 +218,7 @@ const Select = () => {
             </Flex>
           </ModalContent>
         </Modal>
-      </Box> */}
+      </Box>
     </Box>
   );
 };

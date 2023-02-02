@@ -109,7 +109,7 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
         <Flex
           paddingY="2"
           className={styles["side-bar-item"]}
-          w="full"
+          marginX='auto'
           gap="4"
           alignItems="center"
           justifyContent="center"
