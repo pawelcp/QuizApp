@@ -32,8 +32,8 @@ const Select = () => {
   const [caategoryName, setCategoryName] = useState<string>("");
   const [difficultyLevel, setDifficultyLevel] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
-  const router  = useRouter()
+
+  const router = useRouter();
 
   const dispach = useDispatch();
   const selectedCategoryId = useSelector(selectedCategory);
@@ -52,15 +52,23 @@ const Select = () => {
   };
 
   return (
-    <Box m="0 auto" w="90vw">
+    <Box width="full" backgroundColor="#BBC3D7" paddingX="7">
       <Center>
-        <Text p="6" mt="5vh" fontWeight="bold" fontSize="4xl">
+        <Text
+          width="full"
+          textAlign="center"
+          marginY="28"
+          as="b"
+          color="#FFF"
+          fontSize="4xl"
+        >
           Choose category for your quizz
         </Text>
       </Center>
-      <Box w="100%">
+
+      {/* <Box w="full">
         <Grid
-          mt="3vh"
+          mt="12"
           templateColumns={{
             lg: "repeat(4, 1fr)",
             md: "repeat(3, 1fr)",
@@ -194,7 +202,10 @@ const Select = () => {
             </ModalBody>
             <Flex justifyContent="center">
               <Button
-                onClick={()=>{pushSelected(); router.push('/quizview')}}
+                onClick={() => {
+                  pushSelected();
+                  router.push("/quizview");
+                }}
                 color="white"
                 bg="blackAlpha.800"
                 fontSize="2xl"
@@ -208,7 +219,7 @@ const Select = () => {
             </Flex>
           </ModalContent>
         </Modal>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

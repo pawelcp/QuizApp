@@ -1,5 +1,6 @@
 import { Text, Flex, Avatar, Button, useToast } from "@chakra-ui/react";
 import styles from "./SideBar.module.css";
+import { IoMdClose } from "react-icons/io";
 import { BiLogOut } from "react-icons/bi";
 import { IconContext } from "react-icons";
 import SideBarItem from "./SideBarItem";
@@ -9,28 +10,17 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { selectUser } from "../../../store/userSlice";
 import { useRouter } from "next/router";
+import { names } from "./SideBar";
 
-export const names = [
-  {
-    itemName: "Leaderboard",
-    iconName: "",
-  },
-  {
-    itemName: "Community",
-    iconName: "",
-  },
-  {
-    itemName: "Shop",
-    iconName: "",
-  },
-  {
-    itemName: "Notification",
-    iconName: "",
-  },
-];
+interface SideBarMobileProps {
+  isOpen: boolean;
+  onSlideOut: () => void;
+}
 
-const SideBar = () => {
+const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
   const user = useSelector(selectUser);
+  const transitionProperties =
+    isOpen === true ? { marginLeft: "0px" } : { marginLeft: "-100%" };
   const dispatch = useDispatch();
   const toast = useToast();
   const router = useRouter();
@@ -51,21 +41,33 @@ const SideBar = () => {
   };
 
   return (
-    <aside className={`${styles["side-bar"]} ${styles["side-bar-desktop"]}`}>
+    <aside style={transitionProperties} className={`${styles["side-bar"]} ${styles["side-bar-mobile"]}`}>
+      <Flex
+        cursor="pointer"
+        alignItems="center"
+        justifyContent="center"
+        w="10"
+        h="10"
+        onClick={onSlideOut}
+      >
+        <IconContext.Provider value={{ size: "30px" }}>
+          <IoMdClose />
+        </IconContext.Provider>
+      </Flex>
       <Flex
         w="full"
-        padding="6"
-        marginY="5"
+        padding="2"
+        marginY="3"
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="b" fontSize="2xl">
+        <Text as="b" fontSize="4xl">
           Quizziz
         </Text>
       </Flex>
       <Flex
         w="full"
-        marginY="20"
+        marginY="16"
         direction="column"
         alignItems="center"
         justifyContent="center"
@@ -82,7 +84,7 @@ const SideBar = () => {
           gap="4"
           alignItems="center"
           justifyContent="center"
-          marginTop="32"
+          marginTop="16"
         >
           <Button
             onClick={() => router.push("/auth/login")}
@@ -111,7 +113,7 @@ const SideBar = () => {
           gap="4"
           alignItems="center"
           justifyContent="center"
-          marginTop="32"
+          marginTop="16"
         >
           <Avatar size="sm" />
           <Text as="b" fontSize="lg">
@@ -123,7 +125,7 @@ const SideBar = () => {
         ""
       ) : (
         <Flex
-          marginTop="10"
+          marginTop="3"
           w="full"
           alignItems="center"
           justifyContent="center"
@@ -154,4 +156,4 @@ const SideBar = () => {
     </aside>
   );
 };
-export default SideBar;
+export default SideBarMobile;
