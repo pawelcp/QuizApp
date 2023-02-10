@@ -6,7 +6,6 @@ import { auth } from "../firebase";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../store/userSlice";
-import Main from "../src/components/Main/Main";
 import SideBar from "../src/components/SideBar/SideBar";
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from "react-icons/gi";
