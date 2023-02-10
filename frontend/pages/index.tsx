@@ -10,7 +10,7 @@ import SideBar from "../src/components/SideBar/SideBar";
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from "react-icons/gi";
 import SideBarMobile from "../src/components/SideBar/SideBarMobile";
-import Select from "../src/components/Select";
+import Categories from "../src/components/Categories";
 export default function Home() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ export default function Home() {
       ) : (
         <SideBar />
       )}
-      <Select />
+      <Categories />
     </Flex>
   );
 }
