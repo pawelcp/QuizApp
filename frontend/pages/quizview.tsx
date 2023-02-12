@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import {useGetQuizByParamsQuery} from '../store/apiSlice'
 import { selectedCategory, selectedDifficultyLevel } from "../store/selectSlice";
 import { useSelector } from "react-redux";
+import { async } from "@firebase/util";
 
 export default function quiz(){
     const [progress, minutes, seconds] = useCountdown(0.2);
     const selectedCategoryId = useSelector(selectedCategory);
     const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
     const [numberQuestion, setNumberQuestion] = useState(0)
-    const [shuffleAnswerr, setShuffleAnswerr] = useState<any>()
+    const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([])
     
     const {data: quizRes} = useGetQuizByParamsQuery({
       categoryId: selectedCategoryId.categoryId,
@@ -19,21 +20,32 @@ export default function quiz(){
     });
     const resQuestion = quizRes?.results[numberQuestion].question.replace(/&#039;/g,"'").replace(/&quot;/, "'" ).replace(/&ldquo;/,"“").replace(/&eacute;/, 'é').replace(/&rdquo;/, "”").replace(/&quot;/,"'").replace(/&rsquo;/, "'").replace(/&lsquo;/,"'")
     
+
     const shuffleAnswers = () => { 
-      const shuffleAnswer = [
+       const shuffleAnswer = [
         quizRes?.results[numberQuestion].correct_answer,
         quizRes?.results[numberQuestion].incorrect_answers[0],
         quizRes?.results[numberQuestion].incorrect_answers[1],
         quizRes?.results[numberQuestion].incorrect_answers[2]
       ]
-      setShuffleAnswerr(shuffleAnswer
+      console.log('essa');
+      
+      setShuffledAnswer(shuffleAnswer
       .map((answer)=>({ sort: Math.random(), value: answer}))
       .sort((a, b) => a.sort - b.sort)
       .map((obj) => obj.value))
       }
-      console.log(shuffleAnswerr);
       
+      useEffect(()=>{
+        shuffleAnswers()
+        console.log(shuffledAnswer);
+        
+      },[quizRes])
     
+      console.log(quizRes?.results[numberQuestion].correct_answer);
+      console.log(numberQuestion);
+      
+      
     
     
     
@@ -64,12 +76,12 @@ export default function quiz(){
           </Flex>
         </Box>
           <Grid mx='auto' mt='15%' w='90%' templateColumns='repeat(4, 1fr)' gap={2}>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='yellow'>{quizRes?.results[numberQuestion].correct_answer}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='purple'>{quizRes?.results[numberQuestion].incorrect_answers[0]}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='blue'>{quizRes?.results[numberQuestion].incorrect_answers[1]}</Button>
-            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='cyan'>{quizRes?.results[numberQuestion].incorrect_answers[2]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='yellow'>{shuffledAnswer[0]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='purple'>{shuffledAnswer[1]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='blue'>{shuffledAnswer[2]}</Button>
+            <Button textColor='white' fontSize='2xl' w='100%' h='30vh' colorScheme='cyan'>{shuffledAnswer[3]}</Button>
           </Grid>
-          <Button onClick={()=>{if(numberQuestion<9){ setNumberQuestion(numberQuestion +1);shuffleAnswers()}}}>qweqwe</Button>
+          <Button onClick={()=>{ shuffleAnswers(); setNumberQuestion(numberQuestion +1);}}>qweqwe</Button>
         </Box>
       );
 
