@@ -28,6 +28,7 @@ import {
   selectedCategory,
 } from "../../store/selectSlice";
 import { useRouter } from "next/router";
+import CategoryCard from "./CategoryCard";
 
 const Categories = () => {
   const { data: categories } = useGetCategoryQuery();
@@ -57,14 +58,14 @@ const Categories = () => {
 
   return (
     <Box width="full" padding="3">
-      <Center marginBottom='20'>
+      <Center marginBottom="20">
         <InputGroup width="container.sm" size="lg">
           <Input variant="flushed" placeholder="Search for categories...." />
-          <InputRightElement children={<SearchIcon cursor='pointer' />} />
+          <InputRightElement children={<SearchIcon cursor="pointer" />} />
         </InputGroup>
       </Center>
-      <Grid width='full' backgroundColor='#000'>
-        
+      <Grid width="full"  backgroundColor="#000">
+        <CategoryCard />
       </Grid>
     </Box>
 
