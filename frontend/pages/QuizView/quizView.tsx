@@ -55,13 +55,17 @@ export default function quiz(){
       console.log(seconds);
       console.log(progress);
       
-      if(progress=== 99.99999999999999){
-        dispach(
-          incrementIncorrect()
-        )
-        if(numberQuestion===9){router.push('/QuizView/quizResult')}
-        else{setNumberQuestion(numberQuestion +1)};
-      }
+
+      useEffect(()=>{
+        if(seconds === '00'){
+          dispach(
+            incrementIncorrect()
+          )
+          if(numberQuestion===9){router.push('/QuizView/quizResult')}
+          else{setNumberQuestion(numberQuestion +1);};
+        }
+      },[seconds])
+      
 
     const checkAnswer = (answer:string) => {
       if (answer === quizRes?.results[numberQuestion].correct_answer){
