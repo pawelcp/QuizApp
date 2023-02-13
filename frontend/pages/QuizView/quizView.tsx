@@ -52,17 +52,16 @@ export default function quiz(){
         shuffleAnswers()
       },[ quizRes,numberQuestion])
       
+      console.log(seconds);
+      console.log(progress);
       
-      console.log(quizRes?.results[numberQuestion].correct_answer);
-      
-
-      // if(progress >0 && progress=== 0){
-      //   dispach(
-      //     incrementIncorrect()
-      //   )
-      //   if(numberQuestion===9){router.push('/QuizView/quizResult')}
-      //   else{setNumberQuestion(numberQuestion +1)};
-      // }
+      if(progress=== 99.99999999999999){
+        dispach(
+          incrementIncorrect()
+        )
+        if(numberQuestion===9){router.push('/QuizView/quizResult')}
+        else{setNumberQuestion(numberQuestion +1)};
+      }
 
     const checkAnswer = (answer:string) => {
       if (answer === quizRes?.results[numberQuestion].correct_answer){
