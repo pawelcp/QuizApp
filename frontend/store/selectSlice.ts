@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import type { RootState, AppDispatch } from './store'
+import type { RootState } from './store'
 
 export const selectSlice = createSlice({
   name: 'select',

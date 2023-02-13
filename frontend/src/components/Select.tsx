@@ -194,7 +194,7 @@ const Select = () => {
             </ModalBody>
             <Flex justifyContent="center">
               <Button
-                onClick={()=>{pushSelected(); router.push('/quizview')}}
+                onClick={()=>{pushSelected(); router.push('/QuizView/quizView')}}
                 color="white"
                 bg="blackAlpha.800"
                 fontSize="2xl"
