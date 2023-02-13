@@ -1,9 +1,7 @@
-import {Box, Text, Flex } from '@chakra-ui/react'; 
+import { GridItem, Text } from "@chakra-ui/react";
 
 export default function CategoryCard() {
-    return (
-        <Box backgroundColor="#FFF" padding='5'>
-            o
-        </Box>
-    )
+  return (<GridItem w='85%' borderRadius='xl'  minHeight='xs' borderWidth={1.5}>
+
+  </GridItem>);
 }

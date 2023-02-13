@@ -16,6 +16,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   Button,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
@@ -56,15 +57,30 @@ const Categories = () => {
     );
   };
 
+
+  const templateColumns = useBreakpointValue({
+    xs: "repeat(1, 1fr)",
+    sm: "repeat(2, 1fr)",
+    md: "repeat(2, 2fr)",
+    lg: "repeat(3, 1fr)"
+  });
+
   return (
-    <Box width="full" padding="3">
+    <Box width="full" padding="5">
       <Center marginBottom="20">
         <InputGroup width="container.sm" size="lg">
           <Input variant="flushed" placeholder="Search for categories...." />
           <InputRightElement children={<SearchIcon cursor="pointer" />} />
         </InputGroup>
       </Center>
-      <Grid width="full"  backgroundColor="#000">
+      <Grid
+        placeItems='center'
+        templateColumns={templateColumns}
+        width="full"
+        gap={6}
+      >
+        <CategoryCard />
+        <CategoryCard />
         <CategoryCard />
       </Grid>
     </Box>
