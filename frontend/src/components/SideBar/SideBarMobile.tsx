@@ -3,7 +3,7 @@ import styles from "./SideBar.module.css";
 import { IoMdClose } from "react-icons/io";
 import { BiLogOut } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import SideBarItem from "./SideBarItem";
+import SideBarMobileItem from "./SideBarMobileItem";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../store/userSlice";
 import { signOut } from "firebase/auth";
@@ -41,7 +41,10 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
   };
 
   return (
-    <aside style={transitionProperties} className={`${styles["side-bar"]} ${styles["side-bar-mobile"]}`}>
+    <aside
+      style={transitionProperties}
+      className={`${styles["side-bar"]} ${styles["side-bar-mobile"]}`}
+    >
       <Flex
         cursor="pointer"
         alignItems="center"
@@ -61,7 +64,7 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="b" fontSize="4xl">
+        <Text as="b" fontSize="2xl">
           Quizziz
         </Text>
       </Flex>
@@ -74,7 +77,9 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
         gap="5"
       >
         {names.map((name) => {
-          return <SideBarItem key={name.itemName} itemName={name.itemName} />;
+          return (
+            <SideBarMobileItem key={name.itemName} itemName={name.itemName} />
+          );
         })}
       </Flex>
       {!user ? (
@@ -107,13 +112,21 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
         </Flex>
       ) : (
         <Flex
+          style={{transition: '.3s'}} 
           paddingY="2"
-          className={styles["side-bar-item"]}
-          marginX='auto'
+          paddingX="3"
+          width="min-content"
+          marginX="auto"
           gap="4"
+          borderRadius="md"
           alignItems="center"
           justifyContent="center"
           marginTop="16"
+          _hover={{
+            backgroundColor: "#2d2a43b3",
+            cursor: "pointer",
+            color: "#FFF",
+          }}
         >
           <Avatar size="sm" />
           <Text as="b" fontSize="lg">

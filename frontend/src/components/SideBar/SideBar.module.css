@@ -1,6 +1,6 @@
 .side-bar{
-    width: 18em;
-    padding: 0.5em 1em;
+    width: 16em;
+    padding: 0.5em;
     height: 100vh;
     z-index: 1;
     background-color: white;
@@ -19,9 +19,6 @@
     position: relative;
     top: 0;
     left: 0;
-}
-.side-bar-item {
-    width: 16em;
 }
 .side-bar-item:hover {
     background-color: #2d2a43b3;
@@ -75,12 +72,12 @@
     background-color: rgba(0,0,0,0.06);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1400px) {
     .side-bar {
         width: 100%;
         box-shadow: none;
     }
     .side-bar-item {
-        width: 70%;
+        width: 80%;
     }
 }

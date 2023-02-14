@@ -16,7 +16,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { isOpen, onOpen: onSlideIn, onClose: onSlideOut } = useDisclosure();
 
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan1400] = useMediaQuery("(min-width: 1400px)");
 
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <Flex style={{minHeight: '100vh'}}>
-      {isLargerThan900 ? (
+      {isLargerThan1400 ? (
         ""
       ) : (
         <Box
@@ -53,7 +53,7 @@ export default function Home() {
           </IconContext.Provider>
         </Box>
       )}
-      {!isLargerThan900 ? (
+      {!isLargerThan1400 ? (
         <SideBarMobile isOpen={isOpen} onSlideOut={onSlideOut} />
       ) : (
         <SideBar />
