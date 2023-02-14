@@ -26,7 +26,7 @@ export default function CategoryCard() {
             </Text>
           </Box>
           <Flex width="full" justifyContent="flex-end">
-            <Button  colorScheme="linkedin" variant="solid">Launch Quizz!</Button>
+            <Button backgroundColor="#2D2A43" color="#FFF">Launch Quizz!</Button>
           </Flex>
         </Box>
       </Box>
