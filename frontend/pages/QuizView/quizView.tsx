@@ -27,14 +27,14 @@ import { useRouter } from "next/router";
 
 export default function quiz() {
   const router = useRouter();
-  const [progress, minutes, seconds] = useCountdown(0.2);
   const selectedCategoryId = useSelector(selectedCategory);
   const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
-  const Correct = useSelector(correctState);
+  const correct = useSelector(correctState);
   const IncorrectState = useSelector(incorrectState);
   const dispach = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
+  const [progress, , seconds] = useCountdown(0.2, numberQuestion);
   const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([]);
   const [answer, setAnswer] = useState("");
 
@@ -42,6 +42,8 @@ export default function quiz() {
     categoryId: selectedCategoryId.categoryId,
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
+
+  console.log(progress);
 
   const resQuestion = quizRes?.results[numberQuestion].question
     .replace(/&#039;/g, "'")
@@ -53,7 +55,7 @@ export default function quiz() {
     .replace(/&rsquo;/, "'")
     .replace(/&lsquo;/, "'");
 
-  console.log(quizRes);
+
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
@@ -73,29 +75,32 @@ export default function quiz() {
 
   useEffect(() => {
     shuffleAnswers();
+    
   }, [quizRes, numberQuestion]);
 
-  console.log(seconds);
-  console.log(progress);
+
 
   useEffect(() => {
     if (seconds === "00") {
       dispach(incrementIncorrect());
+     
       if (numberQuestion === 9) {
         router.push("/QuizView/quizResult");
       } else {
         setNumberQuestion(numberQuestion + 1);
       }
     }
+
+
   }, [seconds]);
 
   const checkAnswer = (answer: string) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
-      console.log("correct");
+    
     } else {
       dispach(incrementIncorrect());
-      console.log("incorrect");
+      
     }
   };
 
@@ -118,26 +123,26 @@ export default function quiz() {
             </Text>
           </Box>
           <Spacer></Spacer>
-          <Text
-            justifySelf="center"
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-          >{`${seconds}`}</Text>
-          <Box
-            w="10vw"
-            right="5%"
-            top="5%"
-            alignItems="center"
-            justifyItems="center"
-          >
-            <CircularProgress
-              value={progress}
-              w="10vw"
-              size="100px"
-              thickness="4px"
-            />
-          </Box>
+              <Text
+                justifySelf="center"
+                fontSize="2xl"
+                fontWeight="bold"
+                textAlign="center"
+              >{`${seconds}`}</Text>
+              <Box
+                w="10vw"
+                right="5%"
+                top="5%"
+                alignItems="center"
+                justifyItems="center"
+              >
+                <CircularProgress
+                  value={progress}
+                  w="10vw"
+                  size="100px"
+                  thickness="4px"
+                />
+              </Box>
         </Flex>
       </Box>
       <Grid mx="auto" mt="15%" w="90%" templateColumns="repeat(4, 1fr)" gap={2}>
@@ -148,7 +153,6 @@ export default function quiz() {
               router.push("/QuizView/quizResult");
             } else {
               setNumberQuestion(numberQuestion + 1);
-
             }
           }}
           textColor="white"

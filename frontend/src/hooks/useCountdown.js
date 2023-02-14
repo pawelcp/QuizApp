@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export function useCountdown(mins) {
+export function useCountdown(mins, questionNumber) {
   const [secs, decrement] = useState(mins * 60);
   const [progress, increment] = useState(0);
   useEffect(() => {
@@ -11,6 +11,12 @@ export function useCountdown(mins) {
       return () => clearInterval(progressLevel);
     }
   }, [progress, secs, mins]);
+
+  useEffect(() => {
+    decrement(0.2 * 60);
+    increment(0);
+  }, [questionNumber])
+
   const min = parseInt(secs / 60, 10);
   const sec = parseInt(secs % 60, 10);
   const minutes = min < 10 ? "0" + min : min;
