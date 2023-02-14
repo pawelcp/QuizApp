@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { useGetQuizByParamsQuery } from "../../store/apiSlice";
 import {
-  selectedCategory,
+  selectedCategoryId,
   selectedDifficultyLevel,
 } from "../../store/selectSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,19 +27,19 @@ import { useRouter } from "next/router";
 
 export default function quiz() {
   const router = useRouter();
-  const selectedCategoryId = useSelector(selectedCategory);
+  const selectedCategoryID = useSelector(selectedCategoryId);
   const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
   const correct = useSelector(correctState);
   const IncorrectState = useSelector(incorrectState);
   const dispach = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
-  const [progress, , seconds] = useCountdown(0.2, numberQuestion);
+  const [progress, seconds] = useCountdown(30, numberQuestion);
   const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([]);
   const [answer, setAnswer] = useState("");
 
   const { data: quizRes } = useGetQuizByParamsQuery({
-    categoryId: selectedCategoryId.categoryId,
+    categoryId: selectedCategoryID.categoryId,
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
 
@@ -47,7 +47,7 @@ export default function quiz() {
 
   const resQuestion = quizRes?.results[numberQuestion].question
     .replace(/&#039;/g, "'")
-    .replace(/&quot;/, "'")
+    .replace(/&quot;/g, "'")
     .replace(/&ldquo;/, "“")
     .replace(/&eacute;/, "é")
     .replace(/&rdquo;/, "”")
@@ -93,6 +93,10 @@ export default function quiz() {
 
 
   }, [seconds]);
+  console.log(seconds);
+  console.log(progress);
+  
+  
 
   const checkAnswer = (answer: string) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {

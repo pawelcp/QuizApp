@@ -21,7 +21,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   pushCategoryId,
   pushDifficultyLevel,
-  selectedCategory,
+  selectedCategoryId,
+  pushCategoryName
 } from "../../store/selectSlice";
 import { useRouter } from "next/router";
 
@@ -36,7 +37,7 @@ const Select = () => {
   const router  = useRouter()
 
   const dispach = useDispatch();
-  const selectedCategoryId = useSelector(selectedCategory);
+  const selectedCategoryID = useSelector(selectedCategoryId);
 
   const pushSelected = () => {
     dispach(
@@ -49,6 +50,11 @@ const Select = () => {
         difficultyLevel: difficultyLevel,
       })
     );
+    dispach(
+      pushCategoryName({
+        categoryName: caategoryName
+      })
+    )
   };
 
   return (
