@@ -62,7 +62,7 @@ const Categories = () => {
     xs: "repeat(1, 1fr)",
     sm: "repeat(1, 1fr)",
     md: "repeat(2, 2fr)",
-    lg: "repeat(3, 1fr)"
+    lg: "repeat(4, 1fr)"
   });
 
   return (
@@ -79,6 +79,7 @@ const Categories = () => {
         width="full"
         gap={6}
       >
+        <CategoryCard />
         <CategoryCard />
         <CategoryCard />
         <CategoryCard />
