@@ -57,13 +57,14 @@ const Categories = () => {
     );
   };
 
-
   const templateColumns = useBreakpointValue({
     xs: "repeat(1, 1fr)",
     sm: "repeat(1, 1fr)",
     md: "repeat(2, 2fr)",
-    lg: "repeat(4, 1fr)"
+    lg: "repeat(4, 1fr)",
   });
+
+  
 
   return (
     <Box width="full" padding="5">
@@ -74,15 +75,14 @@ const Categories = () => {
         </InputGroup>
       </Center>
       <Grid
-        placeItems='center'
+        placeItems="center"
         templateColumns={templateColumns}
         width="full"
         gap={6}
       >
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
+        {categories?.trivia_categories.map((category) => (
+          <CategoryCard key={category.id} name={category.name} />
+        ))}
       </Grid>
     </Box>
 
