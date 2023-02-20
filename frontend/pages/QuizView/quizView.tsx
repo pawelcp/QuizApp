@@ -25,6 +25,7 @@ import {
 } from "../../store/quizViewSlice";
 import { useRouter } from "next/router";
 
+
 export default function quiz() {
   const router = useRouter();
   const selectedCategoryID = useSelector(selectedCategoryId);

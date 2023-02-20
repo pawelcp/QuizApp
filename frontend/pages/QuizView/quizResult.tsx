@@ -33,7 +33,7 @@ export default function quizResult(){
             <Box mt='2vh'>
                 <Flex alignItems='center' justifyContent='center'>
                     <Button onClick={()=>{router.push('/'); resetState()}} fontSize='xl' bg='white' shadow='2xl' border='2px' mr='30vw' w='15vw' h='9vh' >Home page <AiOutlineHome style={{ marginLeft: '6px' }}/></Button>
-                    <Button fontSize='xl' bg='white' shadow='2xl' border='2px' ml='30vw' w='15vw' h='9vh'>Your profile <Avatar size='sm' ml='4'></Avatar></Button>
+                    <Button onClick={()=>{router.push('/userProfile'); resetState()}} fontSize='xl' bg='white' shadow='2xl' border='2px' ml='30vw' w='15vw' h='9vh'>Your profile <Avatar size='sm' ml='4'></Avatar></Button>
                 </Flex>
             </Box>
                 <Flex alignItems='center' justifyContent='center'>

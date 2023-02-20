@@ -30,6 +30,7 @@ export default function Home() {
       }
     });
   }, []);
+  
 
   return (
     <Box padding='5' w="100vw" position="relative">

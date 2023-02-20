@@ -125,6 +125,7 @@ const SideBar = ({ isOpen, onSlideOut }: SideBarProps) => {
         </Flex>
       ) : (
         <Flex
+          onClick={()=>{router.push('/userProfile')}}
           paddingY="2"
           className={styles["side-bar-item"]}
           w="full"
