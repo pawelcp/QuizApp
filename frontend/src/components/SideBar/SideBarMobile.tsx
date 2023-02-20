@@ -1,36 +1,26 @@
 import { Text, Flex, Avatar, Button, useToast } from "@chakra-ui/react";
 import styles from "./SideBar.module.css";
+import { IoMdClose } from "react-icons/io";
 import { BiLogOut } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import SideBarItem from "./SideBarItem";
+import SideBarMobileItem from "./SideBarMobileItem";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../store/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { selectUser } from "../../../store/userSlice";
 import { useRouter } from "next/router";
+import { names } from "./SideBar";
 
-export const names = [
-  {
-    itemName: "Leaderboard",
-    iconName: "",
-  },
-  {
-    itemName: "Community",
-    iconName: "",
-  },
-  {
-    itemName: "Shop",
-    iconName: "",
-  },
-  {
-    itemName: "Notification",
-    iconName: "",
-  },
-];
+interface SideBarMobileProps {
+  isOpen: boolean;
+  onSlideOut: () => void;
+}
 
-const SideBar = () => {
+const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
   const user = useSelector(selectUser);
+  const transitionProperties =
+    isOpen === true ? { marginLeft: "0px" } : { marginLeft: "-100%" };
   const dispatch = useDispatch();
   const toast = useToast();
   const router = useRouter();
@@ -51,28 +41,45 @@ const SideBar = () => {
   };
 
   return (
-    <aside className={`${styles["side-bar"]} ${styles["side-bar-desktop"]}`}>
+    <aside
+      style={transitionProperties}
+      className={`${styles["side-bar"]} ${styles["side-bar-mobile"]}`}
+    >
+      <Flex
+        cursor="pointer"
+        alignItems="center"
+        justifyContent="center"
+        w="10"
+        h="10"
+        onClick={onSlideOut}
+      >
+        <IconContext.Provider value={{ size: "30px" }}>
+          <IoMdClose />
+        </IconContext.Provider>
+      </Flex>
       <Flex
         w="full"
-        padding="6"
-        marginY="5"
+        padding="2"
+        marginY="3"
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="b" fontSize="3xl">
+        <Text as="b" fontSize="2xl">
           Quizziz
         </Text>
       </Flex>
       <Flex
         w="full"
-        marginY="20"
+        marginY="16"
         direction="column"
         alignItems="center"
         justifyContent="center"
         gap="5"
       >
         {names.map((name) => {
-          return <SideBarItem key={name.itemName} itemName={name.itemName} />;
+          return (
+            <SideBarMobileItem key={name.itemName} itemName={name.itemName} />
+          );
         })}
       </Flex>
       {!user ? (
@@ -82,7 +89,7 @@ const SideBar = () => {
           gap="4"
           alignItems="center"
           justifyContent="center"
-          marginTop="32"
+          marginTop="16"
         >
           <Button
             onClick={() => router.push("/auth/login")}
@@ -105,14 +112,21 @@ const SideBar = () => {
         </Flex>
       ) : (
         <Flex
-          onClick={()=>{router.push('/userProfile')}}
+          style={{transition: '.3s'}} 
           paddingY="2"
-          className={styles["side-bar-item"]}
-          w="full"
+          paddingX="3"
+          width="min-content"
+          marginX="auto"
           gap="4"
+          borderRadius="md"
           alignItems="center"
           justifyContent="center"
-          marginTop="32"
+          marginTop="16"
+          _hover={{
+            backgroundColor: "#2d2a43b3",
+            cursor: "pointer",
+            color: "#FFF",
+          }}
         >
           <Avatar size="sm" />
           <Text as="b" fontSize="lg">
@@ -124,7 +138,7 @@ const SideBar = () => {
         ""
       ) : (
         <Flex
-          marginTop="10"
+          marginTop="3"
           w="full"
           alignItems="center"
           justifyContent="center"
@@ -155,4 +169,4 @@ const SideBar = () => {
     </aside>
   );
 };
-export default SideBar;
+export default SideBarMobile;

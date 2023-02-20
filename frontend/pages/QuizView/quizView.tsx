@@ -44,7 +44,7 @@ export default function quiz() {
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
 
-  console.log(progress);
+ 
 
   const resQuestion = quizRes?.results[numberQuestion].question
     .replace(/&#039;/g, "'")
