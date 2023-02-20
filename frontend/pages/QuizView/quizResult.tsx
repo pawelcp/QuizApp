@@ -67,7 +67,7 @@ export default function quizResult(){
             </Box>
             <Box mt='5vh'>
                 <Flex alignItems='center' justifyContent='center'>
-                    <Button onClick={()=>{router.push('/QuizView/quizView');resetState()}} fontSize='xl' bg='purple.300' shadow='2xl' w='15vw' h='9vh'>Play again</Button>
+                    <Button onClick={()=>{router.push('/QuizView/quizView');resetState()}} textColor='white' fontSize='xl' bg='purple.500' shadow='2xl' w='15vw' h='9vh'>Play again</Button>
                 </Flex>
             </Box>
         </Box>
