@@ -26,7 +26,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   pushCategoryId,
   pushDifficultyLevel,
-  selectedCategory,
 } from "../../store/selectSlice";
 import { useRouter } from "next/router";
 import CategoryCard from "./CategoryCard";
@@ -42,20 +41,19 @@ const Categories = () => {
   const router = useRouter();
 
   const dispach = useDispatch();
-  const selectedCategoryId = useSelector(selectedCategory);
 
-  const pushSelected = () => {
-    dispach(
-      pushCategoryId({
-        categoryId: categoryId,
-      })
-    );
-    dispach(
-      pushDifficultyLevel({
-        difficultyLevel: difficultyLevel,
-      })
-    );
-  };
+  // const pushSelected = () => {
+  //   dispach(
+  //     pushCategoryId({
+  //       categoryId: categoryId,
+  //     })
+  //   );
+  //   dispach(
+  //     pushDifficultyLevel({
+  //       difficultyLevel: difficultyLevel,
+  //     })
+  //   );
+  // };
 
   const templateColumns = useBreakpointValue({
     xs: "repeat(1, 1fr)",

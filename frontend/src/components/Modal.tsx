@@ -30,10 +30,17 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
     setLevel(difficultyLevel);
   };
 
+  const convertedId = id.toString()
+
   const playHandler = () => {
-    dispatch(pushCategoryId(id));
-    dispatch(pushDifficultyLevel(level));
-    router.push("/quizview");
+    dispatch(pushCategoryId({
+      categoryId: convertedId
+    }));
+    dispatch(pushDifficultyLevel({
+      difficultyLevel: level,
+    }));
+    console.log(id, name)
+    router.push("/QuizView/quizView");
   };
 
   return (
