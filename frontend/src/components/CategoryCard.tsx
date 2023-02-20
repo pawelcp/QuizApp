@@ -37,13 +37,13 @@ export default function CategoryCard({ name, id }: CategoryCardProps) {
           </Text>
           <Button
             variant="unstyled"
-            backgroundColor="#2D2A43"
+            backgroundColor="purple.400"
             color="#FFF"
             border="1px"
-            borderColor="#2D2A43"
+            borderColor="purple.400"
             size="lg"
             width="32"
-            _hover={{color: "#2D2A43", backgroundColor: "transparent"}}
+            _hover={{color: "purple.500", backgroundColor: "transparent"}}
             onClick={onOpen}
           >
             Start Quizz
