@@ -13,10 +13,14 @@ export const quizViewSlice = createSlice({
         },
         incrementIncorrect: (state) => {
             state.incorrect++
+        },
+        reset: (state) => {
+            state.correct = 0,
+            state.incorrect = 0
         }
 }})
 
-export const {incrementCorrect, incrementIncorrect} = quizViewSlice.actions
+export const {incrementCorrect, incrementIncorrect, reset} = quizViewSlice.actions
 
 export const correctState = (state:RootState) => state.quizView.correct
 export const incorrectState = (state:RootState) => state.quizView.incorrect

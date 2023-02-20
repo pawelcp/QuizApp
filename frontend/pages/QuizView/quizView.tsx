@@ -53,16 +53,48 @@ export default function quiz() {
     .replace(/&rdquo;/, "”")
     .replace(/&quot;/, "'")
     .replace(/&rsquo;/, "'")
-    .replace(/&lsquo;/, "'");
+    .replace(/&lsquo;/, "'")
 
 
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
-      quizRes?.results[numberQuestion].correct_answer,
-      quizRes?.results[numberQuestion].incorrect_answers[0],
-      quizRes?.results[numberQuestion].incorrect_answers[1],
-      quizRes?.results[numberQuestion].incorrect_answers[2],
+      quizRes?.results[numberQuestion].correct_answer
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, "'")
+      .replace(/&ldquo;/, "“")
+      .replace(/&eacute;/, "é")
+      .replace(/&rdquo;/, "”")
+      .replace(/&quot;/, "'")
+      .replace(/&rsquo;/, "'")
+      .replace(/&lsquo;/, "'"),
+      quizRes?.results[numberQuestion].incorrect_answers[0]
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, "'")
+      .replace(/&ldquo;/, "“")
+      .replace(/&eacute;/, "é")
+      .replace(/&rdquo;/, "”")
+      .replace(/&quot;/, "'")
+      .replace(/&rsquo;/, "'")
+      .replace(/&lsquo;/, "'"),
+      quizRes?.results[numberQuestion].incorrect_answers[1]
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, "'")
+      .replace(/&ldquo;/, "“")
+      .replace(/&eacute;/, "é")
+      .replace(/&rdquo;/, "”")
+      .replace(/&quot;/, "'")
+      .replace(/&rsquo;/, "'")
+      .replace(/&lsquo;/, "'"),
+      quizRes?.results[numberQuestion].incorrect_answers[2]
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, "'")
+      .replace(/&ldquo;/, "“")
+      .replace(/&eacute;/, "é")
+      .replace(/&rdquo;/, "”")
+      .replace(/&quot;/, "'")
+      .replace(/&rsquo;/, "'")
+      .replace(/&lsquo;/, "'"),
     ];
 
     setShuffledAnswer(
