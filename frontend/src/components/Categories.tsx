@@ -59,8 +59,8 @@ const Categories = () => {
 
   const templateColumns = useBreakpointValue({
     xs: "repeat(1, 1fr)",
-    sm: "repeat(1, 1fr)",
-    md: "repeat(2, 2fr)",
+    sm: "repeat(2, 1fr)",
+    md: "repeat(3, 2fr)",
     lg: "repeat(4, 1fr)",
   });
 
@@ -68,12 +68,6 @@ const Categories = () => {
 
   return (
     <Box width="full" padding="5">
-      <Center marginTop="8" marginBottom="20">
-        <InputGroup width="container.sm" size="lg">
-          <Input variant="flushed" placeholder="Search for categories...." />
-          <InputRightElement children={<SearchIcon cursor="pointer" />} />
-        </InputGroup>
-      </Center>
       <Grid
         placeItems="center"
         templateColumns={templateColumns}
@@ -81,7 +75,7 @@ const Categories = () => {
         gap={6}
       >
         {categories?.trivia_categories.map((category) => (
-          <CategoryCard key={category.id} name={category.name} />
+          <CategoryCard key={category.id} name={category.name} id={category.id}/>
         ))}
       </Grid>
     </Box>
