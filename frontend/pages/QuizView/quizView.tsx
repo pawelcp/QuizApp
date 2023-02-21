@@ -24,7 +24,7 @@ import {
   incrementIncorrect,
 } from "../../store/quizViewSlice";
 import { useRouter } from "next/router";
-
+import { decode } from "html-entities";
 
 export default function quiz() {
   const router = useRouter();
@@ -44,58 +44,14 @@ export default function quiz() {
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
 
- 
-
-  const resQuestion = quizRes?.results[numberQuestion].question
-    .replace(/&#039;/g, "'")
-    .replace(/&quot;/g, "'")
-    .replace(/&ldquo;/, "“")
-    .replace(/&eacute;/, "é")
-    .replace(/&rdquo;/, "”")
-    .replace(/&quot;/, "'")
-    .replace(/&rsquo;/, "'")
-    .replace(/&lsquo;/, "'")
-
-
+  const resQuestion = quizRes?.results[numberQuestion].question;
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
-      quizRes?.results[numberQuestion].correct_answer
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
-      quizRes?.results[numberQuestion].incorrect_answers[0]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
-      quizRes?.results[numberQuestion].incorrect_answers[1]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
-      quizRes?.results[numberQuestion].incorrect_answers[2]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
+      quizRes?.results[numberQuestion].correct_answer,
+      quizRes?.results[numberQuestion].incorrect_answers[0],
+      quizRes?.results[numberQuestion].incorrect_answers[1],
+      quizRes?.results[numberQuestion].incorrect_answers[2],
     ];
 
     setShuffledAnswer(
@@ -108,36 +64,27 @@ export default function quiz() {
 
   useEffect(() => {
     shuffleAnswers();
-    
   }, [quizRes, numberQuestion]);
-
-
 
   useEffect(() => {
     if (seconds === "00") {
       dispach(incrementIncorrect());
-     
+
       if (numberQuestion === 9) {
         router.push("/QuizView/quizResult");
       } else {
         setNumberQuestion(numberQuestion + 1);
       }
     }
-
-
   }, [seconds]);
   console.log(seconds);
   console.log(progress);
-  
-  
 
   const checkAnswer = (answer: string) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
-    
     } else {
       dispach(incrementIncorrect());
-      
     }
   };
 
@@ -156,30 +103,30 @@ export default function quiz() {
         <Flex flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
-              {resQuestion}
+              {decode(resQuestion)}
             </Text>
           </Box>
           <Spacer></Spacer>
-              <Text
-                justifySelf="center"
-                fontSize="2xl"
-                fontWeight="bold"
-                textAlign="center"
-              >{`${seconds}`}</Text>
-              <Box
-                w="10vw"
-                right="5%"
-                top="5%"
-                alignItems="center"
-                justifyItems="center"
-              >
-                <CircularProgress
-                  value={progress}
-                  w="10vw"
-                  size="100px"
-                  thickness="4px"
-                />
-              </Box>
+          <Text
+            justifySelf="center"
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="center"
+          >{`${seconds}`}</Text>
+          <Box
+            w="10vw"
+            right="5%"
+            top="5%"
+            alignItems="center"
+            justifyItems="center"
+          >
+            <CircularProgress
+              value={progress}
+              w="10vw"
+              size="100px"
+              thickness="4px"
+            />
+          </Box>
         </Flex>
       </Box>
       <Grid mx="auto" mt="15%" w="90%" templateColumns="repeat(4, 1fr)" gap={2}>
@@ -198,7 +145,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="yellow"
         >
-          {shuffledAnswer[0]}
+          {decode(shuffledAnswer[0])}
         </Button>
         <Button
           onClick={() => {
@@ -215,7 +162,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="purple"
         >
-          {shuffledAnswer[1]}
+          {decode(shuffledAnswer[1])}
         </Button>
         <Button
           onClick={() => {
@@ -232,7 +179,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="blue"
         >
-          {shuffledAnswer[2]}
+          {decode(shuffledAnswer[2])}
         </Button>
         <Button
           onClick={() => {
@@ -249,7 +196,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="cyan"
         >
-          {shuffledAnswer[3]}
+          {decode(shuffledAnswer[3])}
         </Button>
       </Grid>
     </Box>
