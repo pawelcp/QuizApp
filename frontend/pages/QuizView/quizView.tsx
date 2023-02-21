@@ -3,12 +3,10 @@ import { useCountdown } from "../../src/hooks/useCountdown";
 import {
   Box,
   Flex,
-  Progress,
   Text,
   CircularProgress,
   Spacer,
   Grid,
-  GridItem,
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -18,7 +16,7 @@ import {
   selectedDifficultyLevel,
 } from "../../store/selectSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { correctState, incorrectState } from "../../store/quizViewSlice";
+
 import {
   incrementCorrect,
   incrementIncorrect,
@@ -30,14 +28,12 @@ export default function quiz() {
   const router = useRouter();
   const selectedCategoryID = useSelector(selectedCategoryId);
   const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
-  const correct = useSelector(correctState);
-  const IncorrectState = useSelector(incorrectState);
+
   const dispach = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
   const [progress, seconds] = useCountdown(30, numberQuestion);
   const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([]);
-  const [answer, setAnswer] = useState("");
 
   const { data: quizRes } = useGetQuizByParamsQuery({
     categoryId: selectedCategoryID.categoryId,
@@ -77,8 +73,6 @@ export default function quiz() {
       }
     }
   }, [seconds]);
-  console.log(seconds);
-  console.log(progress);
 
   const checkAnswer = (answer: string) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
@@ -106,7 +100,7 @@ export default function quiz() {
               {decode(resQuestion)}
             </Text>
           </Box>
-          <Spacer></Spacer>
+          <Spacer />
           <Text
             justifySelf="center"
             fontSize="2xl"
