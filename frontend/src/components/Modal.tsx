@@ -44,7 +44,7 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
   };
 
   return (
-    <Modal onClose={onClose} isOpen={open}>
+    <Modal onClose={onClose} isOpen={open} isCentered size="lg">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Choose options for your Quiz: {name}</ModalHeader>

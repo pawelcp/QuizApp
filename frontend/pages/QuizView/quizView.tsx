@@ -3,12 +3,10 @@ import { useCountdown } from "../../src/hooks/useCountdown";
 import {
   Box,
   Flex,
-  Progress,
   Text,
   CircularProgress,
   Spacer,
   Grid,
-  GridItem,
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -18,53 +16,38 @@ import {
   selectedDifficultyLevel,
 } from "../../store/selectSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { correctState, incorrectState } from "../../store/quizViewSlice";
+
 import {
   incrementCorrect,
   incrementIncorrect,
 } from "../../store/quizViewSlice";
 import { useRouter } from "next/router";
-
+import { decode } from "html-entities";
 
 export default function quiz() {
   const router = useRouter();
   const selectedCategoryID = useSelector(selectedCategoryId);
   const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
-  const correct = useSelector(correctState);
-  const IncorrectState = useSelector(incorrectState);
+
   const dispach = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
   const [progress, seconds] = useCountdown(30, numberQuestion);
   const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([]);
-  const [answer, setAnswer] = useState("");
 
   const { data: quizRes } = useGetQuizByParamsQuery({
     categoryId: selectedCategoryID.categoryId,
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
 
-  console.log(quizRes?.results[numberQuestion].type);
-  
-  
-  const resQuestion = quizRes?.results[numberQuestion].question
-    .replace(/&#039;/g, "'")
-    .replace(/&quot;/g, "'")
-    .replace(/&ldquo;/, "“")
-    .replace(/&eacute;/, "é")
-    .replace(/&rdquo;/, "”")
-    .replace(/&quot;/, "'")
-    .replace(/&rsquo;/, "'")
-    .replace(/&lsquo;/, "'")
-
-
+  const resQuestion = quizRes?.results[numberQuestion].question;
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
       quizRes?.results[numberQuestion].correct_answer,
       quizRes?.results[numberQuestion].incorrect_answers[0],
       quizRes?.results[numberQuestion].incorrect_answers[1],
-      quizRes?.results[numberQuestion].incorrect_answers[2]
+      quizRes?.results[numberQuestion].incorrect_answers[2],
     ];
 
     setShuffledAnswer(
@@ -77,34 +60,26 @@ export default function quiz() {
 
   useEffect(() => {
     shuffleAnswers();
-    
   }, [quizRes, numberQuestion]);
-
-
 
   useEffect(() => {
     if (seconds === "00") {
       dispach(incrementIncorrect());
-     
+
       if (numberQuestion === 9) {
         router.push("/QuizView/quizResult");
       } else {
         setNumberQuestion(numberQuestion + 1);
       }
     }
-
-
   }, [seconds]);
-  
-  
+
 
   const checkAnswer = (answer: any) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
-    
     } else {
       dispach(incrementIncorrect());
-      
     }
   };
 
@@ -123,30 +98,30 @@ export default function quiz() {
         <Flex flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
-              {resQuestion}
+              {decode(resQuestion)}
             </Text>
           </Box>
-          <Spacer></Spacer>
-              <Text
-                justifySelf="center"
-                fontSize="2xl"
-                fontWeight="bold"
-                textAlign="center"
-              >{`${seconds}`}</Text>
-              <Box
-                w="10vw"
-                right="5%"
-                top="5%"
-                alignItems="center"
-                justifyItems="center"
-              >
-                <CircularProgress
-                  value={progress}
-                  w="10vw"
-                  size="100px"
-                  thickness="4px"
-                />
-              </Box>
+          <Spacer />
+          <Text
+            justifySelf="center"
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="center"
+          >{`${seconds}`}</Text>
+          <Box
+            w="10vw"
+            right="5%"
+            top="5%"
+            alignItems="center"
+            justifyItems="center"
+          >
+            <CircularProgress
+              value={progress}
+              w="10vw"
+              size="100px"
+              thickness="4px"
+            />
+          </Box>
         </Flex>
       </Box>
       {quizRes?.results[numberQuestion].type == 'multiple'? 
@@ -166,7 +141,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="yellow"
         >
-          {shuffledAnswer[0]}
+          {decode(shuffledAnswer[0])}
         </Button>
         <Button
           onClick={() => {
@@ -183,7 +158,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="purple"
         >
-          {shuffledAnswer[1]}
+          {decode(shuffledAnswer[1])}
         </Button>
         <Button
           onClick={() => {
@@ -200,7 +175,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="blue"
         >
-          {shuffledAnswer[2]}
+          {decode(shuffledAnswer[2])}
         </Button>
         <Button
           onClick={() => {
@@ -217,7 +192,7 @@ export default function quiz() {
           h="30vh"
           colorScheme="cyan"
         >
-          {shuffledAnswer[3]}
+          {decode(shuffledAnswer[3])}
         </Button>
       </Grid>:
       <Grid mx="auto" mt="15%" w="60%" templateColumns="repeat(2, 1fr)" gap={2}>

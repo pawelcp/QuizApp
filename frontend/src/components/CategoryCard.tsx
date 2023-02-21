@@ -15,16 +15,18 @@ type CategoryCardProps = {
 
 export default function CategoryCard({ name, id }: CategoryCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  
+  
 
   return (
     <>
       <GridItem
         w="100%"
-        borderWidth={1}
-        minHeight="44"
-        padding="5"
+        minHeight="52"
+        maxHeight="52"
+        padding="3"
         borderRadius="lg"
+        borderWidth={1}
       >
         <Flex
           alignItems="center"
