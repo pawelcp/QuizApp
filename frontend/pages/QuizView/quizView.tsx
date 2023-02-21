@@ -44,8 +44,9 @@ export default function quiz() {
     difficultyLevel: selectedDifficultyLvl.difficultyLevel,
   });
 
- 
-
+  console.log(quizRes?.results[numberQuestion].type);
+  
+  
   const resQuestion = quizRes?.results[numberQuestion].question
     .replace(/&#039;/g, "'")
     .replace(/&quot;/g, "'")
@@ -60,42 +61,10 @@ export default function quiz() {
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
-      quizRes?.results[numberQuestion].correct_answer
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
-      quizRes?.results[numberQuestion].incorrect_answers[0]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
-      quizRes?.results[numberQuestion].incorrect_answers[1]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
+      quizRes?.results[numberQuestion].correct_answer,
+      quizRes?.results[numberQuestion].incorrect_answers[0],
+      quizRes?.results[numberQuestion].incorrect_answers[1],
       quizRes?.results[numberQuestion].incorrect_answers[2]
-      .replace(/&#039;/g, "'")
-      .replace(/&quot;/g, "'")
-      .replace(/&ldquo;/, "“")
-      .replace(/&eacute;/, "é")
-      .replace(/&rdquo;/, "”")
-      .replace(/&quot;/, "'")
-      .replace(/&rsquo;/, "'")
-      .replace(/&lsquo;/, "'"),
     ];
 
     setShuffledAnswer(
@@ -126,12 +95,10 @@ export default function quiz() {
 
 
   }, [seconds]);
-  console.log(seconds);
-  console.log(progress);
   
   
 
-  const checkAnswer = (answer: string) => {
+  const checkAnswer = (answer: any) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
     
@@ -182,6 +149,7 @@ export default function quiz() {
               </Box>
         </Flex>
       </Box>
+      {quizRes?.results[numberQuestion].type == 'multiple'? 
       <Grid mx="auto" mt="15%" w="90%" templateColumns="repeat(4, 1fr)" gap={2}>
         <Button
           onClick={() => {
@@ -251,7 +219,45 @@ export default function quiz() {
         >
           {shuffledAnswer[3]}
         </Button>
+      </Grid>:
+      <Grid mx="auto" mt="15%" w="60%" templateColumns="repeat(2, 1fr)" gap={2}>
+        <Button
+          onClick={() => {
+            checkAnswer(quizRes?.results[numberQuestion].correct_answer);
+            if (numberQuestion === 9) {
+              router.push("/QuizView/quizResult");
+            } else {
+              setNumberQuestion(numberQuestion + 1);
+            }
+          }}
+          textColor="white"
+          fontSize="2xl"
+          w="100%"
+          h="30vh"
+          colorScheme="yellow"
+        >
+          {quizRes?.results[numberQuestion].correct_answer}
+        </Button>
+        <Button
+          onClick={() => {
+            checkAnswer(quizRes?.results[numberQuestion].incorrect_answers);
+            if (numberQuestion === 9) {
+              router.push("/QuizView/quizResult");
+            } else {
+              setNumberQuestion(numberQuestion + 1);
+            }
+          }}
+          textColor="white"
+          fontSize="2xl"
+          w="100%"
+          h="30vh"
+          colorScheme="purple"
+        >
+          {quizRes?.results[numberQuestion].incorrect_answers}
+        </Button>
       </Grid>
+      }
+      
     </Box>
   );
 }
