@@ -74,7 +74,6 @@ export default function quiz() {
     }
   }, [seconds]);
 
-
   const checkAnswer = (answer: any) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
@@ -116,7 +115,7 @@ export default function quiz() {
             justifyItems="center"
           >
             <CircularProgress
-              value={progress}
+              value={+progress}
               w="10vw"
               size="100px"
               thickness="4px"
@@ -124,115 +123,127 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
-      {quizRes?.results[numberQuestion].type == 'multiple'? 
-      <Grid mx="auto" mt="15%" w="90%" templateColumns="repeat(4, 1fr)" gap={2}>
-        <Button
-          onClick={() => {
-            checkAnswer(shuffledAnswer[0]);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="yellow"
+      {quizRes?.results[numberQuestion].type == "multiple" ? (
+        <Grid
+          mx="auto"
+          mt="15%"
+          w="90%"
+          templateColumns="repeat(4, 1fr)"
+          gap={2}
         >
-          {decode(shuffledAnswer[0])}
-        </Button>
-        <Button
-          onClick={() => {
-            checkAnswer(shuffledAnswer[1]);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="purple"
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[0]);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="yellow"
+          >
+            {decode(shuffledAnswer[0])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[1]);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="purple"
+          >
+            {decode(shuffledAnswer[1])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[2]);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="blue"
+          >
+            {decode(shuffledAnswer[2])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[3]);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="cyan"
+          >
+            {decode(shuffledAnswer[3])}
+          </Button>
+        </Grid>
+      ) : (
+        <Grid
+          mx="auto"
+          mt="15%"
+          w="60%"
+          templateColumns="repeat(2, 1fr)"
+          gap={2}
         >
-          {decode(shuffledAnswer[1])}
-        </Button>
-        <Button
-          onClick={() => {
-            checkAnswer(shuffledAnswer[2]);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="blue"
-        >
-          {decode(shuffledAnswer[2])}
-        </Button>
-        <Button
-          onClick={() => {
-            checkAnswer(shuffledAnswer[3]);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="cyan"
-        >
-          {decode(shuffledAnswer[3])}
-        </Button>
-      </Grid>:
-      <Grid mx="auto" mt="15%" w="60%" templateColumns="repeat(2, 1fr)" gap={2}>
-        <Button
-          onClick={() => {
-            checkAnswer(quizRes?.results[numberQuestion].correct_answer);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="yellow"
-        >
-          {quizRes?.results[numberQuestion].correct_answer}
-        </Button>
-        <Button
-          onClick={() => {
-            checkAnswer(quizRes?.results[numberQuestion].incorrect_answers);
-            if (numberQuestion === 9) {
-              router.push("/QuizView/quizResult");
-            } else {
-              setNumberQuestion(numberQuestion + 1);
-            }
-          }}
-          textColor="white"
-          fontSize="2xl"
-          w="100%"
-          h="30vh"
-          colorScheme="purple"
-        >
-          {quizRes?.results[numberQuestion].incorrect_answers}
-        </Button>
-      </Grid>
-      }
-      
+          <Button
+            onClick={() => {
+              checkAnswer(quizRes?.results[numberQuestion].correct_answer);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="yellow"
+          >
+            {quizRes?.results[numberQuestion].correct_answer}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(quizRes?.results[numberQuestion].incorrect_answers);
+              if (numberQuestion === 9) {
+                router.push("/QuizView/quizResult");
+              } else {
+                setNumberQuestion(numberQuestion + 1);
+              }
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="purple"
+          >
+            {quizRes?.results[numberQuestion].incorrect_answers}
+          </Button>
+        </Grid>
+      )}
     </Box>
   );
 }
