@@ -1,21 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
-import { productsApi } from "./apiSlice";
-import selectReducer from './selectSlice'
-import quizViewReducer from "./quizViewSlice";
-
+import { quizApi } from "./ApiSlice";
+import gameOptionsReducer from "./GameOptionsSlice";
+import gameReducer from "./GameSlice";
 
 export const store = configureStore({
-    reducer:{
-        user: userReducer,
-        select: selectReducer,
-        quizView: quizViewReducer.reducer,
-        [productsApi.reducerPath]: productsApi.reducer
-        
-    },
-    middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware),
-    
-})
-export type RootState = ReturnType<typeof store.getState>
-
+  reducer: {
+    user: userReducer,
+    gameOptions: gameOptionsReducer,
+    game: gameReducer,
+    [quizApi.reducerPath]: quizApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(quizApi.middleware),
+});
+export type RootState = ReturnType<typeof store.getState>;

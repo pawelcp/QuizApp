@@ -1,4 +1,3 @@
-import { useCounter } from "@chakra-ui/counter";
 import { useCountdown } from "../../src/hooks/useCountdown";
 import {
   Box,
@@ -10,44 +9,43 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useGetQuizByParamsQuery } from "../../store/apiSlice";
+import { useGetQuestionsQuery } from "../../store/ApiSlice";
 import {
-  selectedCategoryId,
-  selectedDifficultyLevel,
-} from "../../store/selectSlice";
+  categoryId,
+  difficultyLevel,
+  categoryName,
+} from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  incrementCorrect,
-  incrementIncorrect,
-} from "../../store/quizViewSlice";
+import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 
 export default function quiz() {
   const router = useRouter();
-  const selectedCategoryID = useSelector(selectedCategoryId);
-  const selectedDifficultyLvl = useSelector(selectedDifficultyLevel);
+  const selectedCategoryId = useSelector(categoryId);
+  const selectedDifficultyLvl = useSelector(difficultyLevel);
+  const name = useSelector(categoryName);
 
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
   const [progress, seconds] = useCountdown(30, numberQuestion);
   const [shuffledAnswer, setShuffledAnswer] = useState<any[]>([]);
 
-  const { data: quizRes } = useGetQuizByParamsQuery({
-    categoryId: selectedCategoryID.categoryId,
-    difficultyLevel: selectedDifficultyLvl.difficultyLevel,
+  const { data } = useGetQuestionsQuery({
+    categoryId: selectedCategoryId,
+    difficultyLevel: selectedDifficultyLvl,
   });
 
-  const resQuestion = quizRes?.results[numberQuestion].question;
+  const question = data?.results[numberQuestion].question;
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [
-      quizRes?.results[numberQuestion].correct_answer,
-      quizRes?.results[numberQuestion].incorrect_answers[0],
-      quizRes?.results[numberQuestion].incorrect_answers[1],
-      quizRes?.results[numberQuestion].incorrect_answers[2],
+      data?.results[numberQuestion].correct_answer,
+      data?.results[numberQuestion].incorrect_answers[0],
+      data?.results[numberQuestion].incorrect_answers[1],
+      data?.results[numberQuestion].incorrect_answers[2],
     ];
 
     setShuffledAnswer(
@@ -60,27 +58,43 @@ export default function quiz() {
 
   useEffect(() => {
     shuffleAnswers();
-  }, [quizRes, numberQuestion]);
+  }, [data, numberQuestion]);
 
   useEffect(() => {
     if (seconds === "00") {
-      dispach(incrementIncorrect());
+      dispatch(incrementIncorrect());
 
       if (numberQuestion === 9) {
-        router.push("/QuizView/quizResult");
+        router.push("/QuizView/quizResult").catch((err: any) => {
+          throw new Error(err.message);
+        });
       } else {
         setNumberQuestion(numberQuestion + 1);
       }
     }
   }, [seconds]);
 
-  const checkAnswer = (answer: any) => {
-    if (answer === quizRes?.results[numberQuestion].correct_answer) {
-      dispach(incrementCorrect());
+  const checkEndHandler = (questionNumber?: number) => {
+    if (questionNumber === 9) {
+      router.push("/QuizView/quizResult").catch((err: any) => {
+        throw new Error(err.message);
+      });
     } else {
-      dispach(incrementIncorrect());
+      setNumberQuestion(numberQuestion + 1);
     }
   };
+
+  const checkAnswer = (answer?: string, questionNumber?: number) => {
+    if (answer === data?.results[numberQuestion].correct_answer) {
+      dispatch(incrementCorrect());
+      checkEndHandler(questionNumber);
+    } else {
+      dispatch(incrementIncorrect());
+      checkEndHandler(questionNumber);
+    }
+  };
+
+  console.log(name);
 
   return (
     <Box>
@@ -97,7 +111,7 @@ export default function quiz() {
         <Flex flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
-              {decode(resQuestion)}
+              {decode(question)}
             </Text>
           </Box>
           <Spacer />
@@ -123,7 +137,7 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
-      {quizRes?.results[numberQuestion].type == "multiple" ? (
+      {data?.results[numberQuestion].type == "multiple" ? (
         <Grid
           mx="auto"
           mt="15%"
@@ -133,12 +147,7 @@ export default function quiz() {
         >
           <Button
             onClick={() => {
-              checkAnswer(shuffledAnswer[0]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(shuffledAnswer[0], numberQuestion);
             }}
             textColor="white"
             fontSize="2xl"
@@ -150,12 +159,7 @@ export default function quiz() {
           </Button>
           <Button
             onClick={() => {
-              checkAnswer(shuffledAnswer[1]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(shuffledAnswer[1], numberQuestion);
             }}
             textColor="white"
             fontSize="2xl"
@@ -167,12 +171,7 @@ export default function quiz() {
           </Button>
           <Button
             onClick={() => {
-              checkAnswer(shuffledAnswer[2]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(shuffledAnswer[2], numberQuestion);
             }}
             textColor="white"
             fontSize="2xl"
@@ -184,12 +183,7 @@ export default function quiz() {
           </Button>
           <Button
             onClick={() => {
-              checkAnswer(shuffledAnswer[3]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(shuffledAnswer[3], numberQuestion);
             }}
             textColor="white"
             fontSize="2xl"
@@ -210,12 +204,10 @@ export default function quiz() {
         >
           <Button
             onClick={() => {
-              checkAnswer(quizRes?.results[numberQuestion].correct_answer);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(
+                data?.results[numberQuestion].correct_answer,
+                numberQuestion
+              );
             }}
             textColor="white"
             fontSize="2xl"
@@ -223,16 +215,14 @@ export default function quiz() {
             h="30vh"
             colorScheme="yellow"
           >
-            {quizRes?.results[numberQuestion].correct_answer}
+            {data?.results[numberQuestion].correct_answer}
           </Button>
           <Button
             onClick={() => {
-              checkAnswer(quizRes?.results[numberQuestion].incorrect_answers);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
+              checkAnswer(
+                data?.results[numberQuestion].incorrect_answers.toString(),
+                numberQuestion
+              );
             }}
             textColor="white"
             fontSize="2xl"
@@ -240,7 +230,7 @@ export default function quiz() {
             h="30vh"
             colorScheme="purple"
           >
-            {quizRes?.results[numberQuestion].incorrect_answers}
+            {data?.results[numberQuestion].incorrect_answers.toString()}
           </Button>
         </Grid>
       )}

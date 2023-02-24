@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { pushDifficultyLevel } from "./selectSlice";
 
 export interface Category {
   id: number;
@@ -19,24 +18,24 @@ interface Results {
   type: string;
 }
 
-interface QuizByParamsResponse {
+interface Questions {
   response_code: number;
   results: Results[];
 }
 
-export const productsApi = createApi({
+export const quizApi = createApi({
   reducerPath: "quizApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://opentdb.com/" }),
   endpoints: (builder) => ({
     getCategory: builder.query<CategoryResponse, void>({
       query: () => "api_category.php",
     }),
-    getQuizByParams: builder.query<QuizByParamsResponse, any>({
+    getQuestions: builder.query<Questions, any>({
       query: ({ categoryId, difficultyLevel }) =>
         `api.php?amount=10&category=${categoryId}&difficulty=${difficultyLevel}`,
     }),
   }),
 });
 
-export const { useGetCategoryQuery } = productsApi;
-export const { useGetQuizByParamsQuery } = productsApi;
+export const { useGetCategoryQuery } = quizApi;
+export const { useGetQuestionsQuery } = quizApi;

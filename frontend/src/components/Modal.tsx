@@ -8,12 +8,15 @@ import {
   Flex,
   Button,
   Center,
-  ModalFooter,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import styles from "./Modal.module.css";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { pushCategoryId, pushDifficultyLevel } from "../../store/selectSlice";
+import {
+  setCategoryId,
+  setCategoryName,
+  setDifficultyLevel,
+} from "../../store/GameOptionsSlice";
 import { useRouter } from "next/router";
 
 type ModalProps = {
@@ -34,35 +37,30 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
   const convertedId = id.toString();
 
   const playHandler = () => {
-    dispatch(
-      pushCategoryId({
-        categoryId: convertedId,
-      })
-    );
-    dispatch(
-      pushDifficultyLevel({
-        difficultyLevel: level,
-      })
-    );
-    console.log(id, name);
-    router.push("/QuizView/quizView");
+    dispatch(setCategoryId(convertedId));
+    dispatch(setDifficultyLevel(level));
+    dispatch(setCategoryName(name));
+    router.push("/QuizView/quizView").catch((err) => {
+      throw new Error("Something went wrong!");
+    });
   };
 
   return (
-    <Modal isOpen={open} onClose={onClose} size="2xl">
+    <Modal isOpen={open} onClose={onClose} size="2xl" isCentered>
       <ModalOverlay />
-      <ModalContent mt="30vh" pb="8">
-        <ModalHeader>Choose a difficulty level for {name}</ModalHeader>
+      <ModalContent p="2">
+        <ModalHeader>Choose a difficulty level for your quiz</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Flex justifyContent="center">
+          <Flex justifyContent="center" alignItems="center">
             <Button
               onClick={() => {
                 setLevel("easy");
               }}
+              width="33%"
               opacity="0.7"
-              fontSize="3xl"
-              p="8%"
+              fontSize="2xl"
+              p="10"
               colorScheme="green"
               m="1"
               _active={{
@@ -78,10 +76,10 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
               onClick={() => {
                 setLevel("medium");
               }}
+              width="33%"
               opacity="0.7"
-              fontSize="3xl"
-              px="5%"
-              py="8%"
+              fontSize="2xl"
+              p="10"
               colorScheme="orange"
               _active={{
                 bg: "orange",
@@ -94,12 +92,13 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
               Medium
             </Button>
             <Button
+              width="33%"
               onClick={() => {
                 setLevel("hard");
               }}
               opacity="0.7"
-              fontSize="3xl"
-              p="8%"
+              fontSize="2xl"
+              p="10"
               colorScheme="red"
               m="1"
               _active={{
@@ -113,20 +112,20 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
             </Button>
           </Flex>
         </ModalBody>
-        <Flex justifyContent="center">
+        <Center>
           <Button
             onClick={playHandler}
             color="white"
             bg="blackAlpha.800"
             fontSize="2xl"
-            p="5%"
-            mt="2"
-            w="10vw"
+            p="7"
+            marginY="5"
+            w="40%"
             _hover={{ bg: "black" }}
           >
             Start
           </Button>
-        </Flex>
+        </Center>
       </ModalContent>
     </Modal>
     // <Modal onClose={onClose} isOpen={open} isCentered size="lg">

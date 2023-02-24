@@ -20,13 +20,13 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useGetCategoryQuery } from "../../store/apiSlice";
-import { Category } from "../../store/apiSlice";
+import { useGetCategoryQuery } from "../../store/ApiSlice";
+import { Category } from "../../store/ApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   pushCategoryId,
   pushDifficultyLevel,
-} from "../../store/selectSlice";
+} from "../../store/GameOptionsSlice";
 import { useRouter } from "next/router";
 import CategoryCard from "./CategoryCard";
 
@@ -42,15 +42,12 @@ const Categories = () => {
 
   const dispach = useDispatch();
 
-
   const templateColumns = useBreakpointValue({
     xs: "repeat(1, 1fr)",
     sm: "repeat(1, 1fr)",
     md: "repeat(2, 2fr)",
     lg: "repeat(3, 1fr)",
   });
-
-  
 
   return (
     <Box width="full" padding="5">
@@ -61,11 +58,14 @@ const Categories = () => {
         gap={6}
       >
         {categories?.trivia_categories.map((category) => (
-          <CategoryCard key={category.id} name={category.name} id={category.id}/>
+          <CategoryCard
+            key={category.id}
+            name={category.name}
+            id={category.id}
+          />
         ))}
       </Grid>
     </Box>
-
   );
 };
 export default Categories;
