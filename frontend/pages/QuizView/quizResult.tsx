@@ -26,6 +26,9 @@ export default function quizResult(){
     const resetState = () => { 
         dispach(reset())
      }
+
+     console.log(CategoryName);
+     
     
     return(
         <Box>

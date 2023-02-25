@@ -41,6 +41,8 @@ export default function quiz() {
   });
 
   const resQuestion = quizRes?.results[numberQuestion].question;
+  console.log(selectedCategoryID.categoryId);
+  
 
   const shuffleAnswers = () => {
     const shuffleAnswer = [

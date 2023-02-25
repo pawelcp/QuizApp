@@ -12,7 +12,7 @@ import {
 import styles from "./Modal.module.css";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { pushCategoryId, pushDifficultyLevel } from "../../store/selectSlice";
+import { pushCategoryId, pushDifficultyLevel, pushCategoryName } from "../../store/selectSlice";
 import { useRouter } from "next/router";
 
 type ModalProps = {
@@ -39,6 +39,9 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
     dispatch(pushDifficultyLevel({
       difficultyLevel: level,
     }));
+    dispatch(pushCategoryName({
+      categoryName: name
+    }))
     console.log(id, name)
     router.push("/QuizView/quizView");
   };
