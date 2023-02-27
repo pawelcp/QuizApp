@@ -46,7 +46,7 @@ export default function quizResult(){
                     </Box>
                     <Box>
                         <Text w='50vw' mt='3vh' textAlign='center' fontSize='3xl' fontWeight='bold'>Difficulty Level:</Text>
-                        <Text w='50vw' textAlign='center' textColor={DifficultyLevel.difficultyLevel==='easy'?'green':DifficultyLevel.difficultyLevel==='medium'?'yellow.400':'red'} fontSize='4xl' textTransform='uppercase' fontWeight='bold'>{DifficultyLevel.difficultyLevel}</Text>
+                        <Text w='50vw' textAlign='center' textColor={DifficultyLevel.difficultyLevel==='easy'?'green':DifficultyLevel.difficultyLevel==='medium'?'orange':'red'} fontSize='4xl' textTransform='uppercase' fontWeight='bold'>{DifficultyLevel.difficultyLevel}</Text>
                     </Box>
                 </Flex>
             </Box>

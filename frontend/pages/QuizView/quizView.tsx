@@ -8,6 +8,7 @@ import {
   Spacer,
   Grid,
   Button,
+  CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useGetQuizByParamsQuery } from "../../store/apiSlice";
@@ -23,6 +24,8 @@ import {
 } from "../../store/quizViewSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
+import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
+import AnswersBoolean from "../../src/components/Answers/AnswersBoolean"
 
 export default function quiz() {
   const router = useRouter();
@@ -41,10 +44,12 @@ export default function quiz() {
   });
 
   const resQuestion = quizRes?.results[numberQuestion].question;
-  console.log(selectedCategoryID.categoryId);
+  
+  console.log(quizRes?.results[numberQuestion].correct_answer);
   
 
   const shuffleAnswers = () => {
+    if(quizRes?.results[numberQuestion].type == "multiple"){
     const shuffleAnswer = [
       quizRes?.results[numberQuestion].correct_answer,
       quizRes?.results[numberQuestion].incorrect_answers[0],
@@ -57,7 +62,19 @@ export default function quiz() {
         .map((answer) => ({ sort: Math.random(), value: answer }))
         .sort((a, b) => a.sort - b.sort)
         .map((obj) => obj.value)
-    );
+    )}else{
+      const shuffleAnswer = [
+        quizRes?.results[numberQuestion].correct_answer,
+        quizRes?.results[numberQuestion].incorrect_answers[0],
+      ];
+  
+      setShuffledAnswer(
+        shuffleAnswer
+          .map((answer) => ({ sort: Math.random(), value: answer }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((obj) => obj.value)
+      )
+    }
   };
 
   useEffect(() => {
@@ -76,13 +93,16 @@ export default function quiz() {
     }
   }, [seconds]);
 
-  const checkAnswer = (answer: any) => {
+  const checkAnswer = (answer: string) => {
     if (answer === quizRes?.results[numberQuestion].correct_answer) {
       dispach(incrementCorrect());
     } else {
       dispach(incrementIncorrect());
     }
   };
+  const changeNumberQuestion = () => {
+    setNumberQuestion(numberQuestion +1)
+  }
 
   return (
     <Box>
@@ -103,148 +123,25 @@ export default function quiz() {
             </Text>
           </Box>
           <Spacer />
-          <Text
-            justifySelf="center"
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-          >{`${seconds}`}</Text>
           <Box
             w="10vw"
-            right="5%"
-            top="5%"
             alignItems="center"
             justifyItems="center"
           >
             <CircularProgress
               value={+progress}
               w="10vw"
-              size="100px"
-              thickness="4px"
-            />
+              size="100%"
+              thickness="5px"
+              color="purple.500">
+                <CircularProgressLabel fontSize='3xl'>{`${seconds}`}</CircularProgressLabel>
+            </CircularProgress>
           </Box>
         </Flex>
       </Box>
       {quizRes?.results[numberQuestion].type == "multiple" ? (
-        <Grid
-          mx="auto"
-          mt="15%"
-          w="90%"
-          templateColumns="repeat(4, 1fr)"
-          gap={2}
-        >
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[0]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="yellow"
-          >
-            {decode(shuffledAnswer[0])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[1]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="purple"
-          >
-            {decode(shuffledAnswer[1])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[2]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="blue"
-          >
-            {decode(shuffledAnswer[2])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[3]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="cyan"
-          >
-            {decode(shuffledAnswer[3])}
-          </Button>
-        </Grid>
-      ) : (
-        <Grid
-          mx="auto"
-          mt="15%"
-          w="60%"
-          templateColumns="repeat(2, 1fr)"
-          gap={2}
-        >
-          <Button
-            onClick={() => {
-              checkAnswer(quizRes?.results[numberQuestion].correct_answer);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="yellow"
-          >
-            {quizRes?.results[numberQuestion].correct_answer}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(quizRes?.results[numberQuestion].incorrect_answers);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion(numberQuestion + 1);
-              }
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="purple"
-          >
-            {quizRes?.results[numberQuestion].incorrect_answers}
-          </Button>
-        </Grid>
+       <AnswersMultitype numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />) 
+       : (<AnswersBoolean numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />
       )}
     </Box>
   );

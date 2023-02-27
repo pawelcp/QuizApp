@@ -44,6 +44,11 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
         difficultyLevel: level,
       })
     );
+    dispatch(
+      pushCategoryName({
+        categoryName: name
+      })
+    )
     console.log(id, name);
     router.push("/QuizView/quizView");
   };
