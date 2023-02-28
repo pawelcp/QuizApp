@@ -7,6 +7,7 @@ import {
   Spacer,
   Grid,
   Button,
+  CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useGetQuestionsQuery } from "../../store/ApiSlice";
@@ -20,6 +21,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
+import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
+import AnswersBoolean from "../../src/components/Answers/AnswersBoolean"
 
 export default function quiz() {
   const router = useRouter();
@@ -37,10 +40,11 @@ export default function quiz() {
     categoryId: selectedCategoryId,
     difficultyLevel: selectedDifficultyLvl,
   });
-
   const question = data?.results[numberQuestion].question;
 
+
   const shuffleAnswers = () => {
+    if(quizRes?.results[numberQuestion].type == "multiple"){
     const shuffleAnswer = [
       data?.results[numberQuestion].correct_answer,
       data?.results[numberQuestion].incorrect_answers[0],
@@ -53,7 +57,19 @@ export default function quiz() {
         .map((answer) => ({ sort: Math.random(), value: answer }))
         .sort((a, b) => a.sort - b.sort)
         .map((obj) => obj.value)
-    );
+    )}else{
+      const shuffleAnswer = [
+        quizRes?.results[numberQuestion].correct_answer,
+        quizRes?.results[numberQuestion].incorrect_answers[0],
+      ];
+  
+      setShuffledAnswer(
+        shuffleAnswer
+          .map((answer) => ({ sort: Math.random(), value: answer }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((obj) => obj.value)
+      )
+    }
   };
 
   useEffect(() => {
@@ -88,11 +104,15 @@ export default function quiz() {
     if (answer === data?.results[numberQuestion].correct_answer) {
       dispatch(incrementCorrect());
       checkEndHandler(questionNumber);
+
     } else {
       dispatch(incrementIncorrect());
       checkEndHandler(questionNumber);
     }
   };
+  const changeNumberQuestion = () => {
+    setNumberQuestion(numberQuestion +1)
+  }
 
   console.log(name);
 
@@ -115,28 +135,23 @@ export default function quiz() {
             </Text>
           </Box>
           <Spacer />
-          <Text
-            justifySelf="center"
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-          >{`${seconds}`}</Text>
           <Box
             w="10vw"
-            right="5%"
-            top="5%"
             alignItems="center"
             justifyItems="center"
           >
             <CircularProgress
               value={+progress}
               w="10vw"
-              size="100px"
-              thickness="4px"
-            />
+              size="100%"
+              thickness="5px"
+              color="purple.500">
+                <CircularProgressLabel fontSize='3xl'>{`${seconds}`}</CircularProgressLabel>
+            </CircularProgress>
           </Box>
         </Flex>
       </Box>
+
       {data?.results[numberQuestion].type == "multiple" ? (
         <Grid
           mx="auto"
@@ -233,6 +248,9 @@ export default function quiz() {
             {data?.results[numberQuestion].incorrect_answers.toString()}
           </Button>
         </Grid>
+      {quizRes?.results[numberQuestion].type == "multiple" ? (
+       <AnswersMultitype numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />) 
+       : (<AnswersBoolean numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />
       )}
     </Box>
   );

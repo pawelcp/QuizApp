@@ -12,11 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+
 import {
   setCategoryId,
   setCategoryName,
   setDifficultyLevel,
 } from "../../store/GameOptionsSlice";
+
 import { useRouter } from "next/router";
 
 type ModalProps = {
@@ -37,12 +39,14 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
   const convertedId = id.toString();
 
   const playHandler = () => {
+
     dispatch(setCategoryId(convertedId));
     dispatch(setDifficultyLevel(level));
     dispatch(setCategoryName(name));
     router.push("/QuizView/quizView").catch((err) => {
       throw new Error("Something went wrong!");
     });
+
   };
 
   return (

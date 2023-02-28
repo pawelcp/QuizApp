@@ -16,7 +16,7 @@ type CategoryCardProps = {
 export default function CategoryCard({ name, id }: CategoryCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   
-  
+  const convertedName = name.replace('Entertainment: ','').replace('Science: ','')
 
   return (
     <>
@@ -34,8 +34,8 @@ export default function CategoryCard({ name, id }: CategoryCardProps) {
           flexDirection="column"
           gap="14"
         >
-          <Text fontSize="lg" as="b">
-            {name}
+          <Text fontSize="2xl" pt='5' as="b">
+            {convertedName}
           </Text>
           <Button
             variant="unstyled"
@@ -53,7 +53,7 @@ export default function CategoryCard({ name, id }: CategoryCardProps) {
         </Flex>
       </GridItem>
 
-      <ModalElement onClose={onClose} open={isOpen} name={name} id={id} />
+      <ModalElement onClose={onClose} open={isOpen} name={convertedName} id={id} />
     </>
   );
 }

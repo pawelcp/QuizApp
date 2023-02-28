@@ -26,6 +26,7 @@ export default function quizResult() {
     });
   };
 
+
   return (
     <Box>
       <Box>
