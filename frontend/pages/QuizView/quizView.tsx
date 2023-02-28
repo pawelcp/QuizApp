@@ -22,7 +22,7 @@ import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
-import AnswersBoolean from "../../src/components/Answers/AnswersBoolean"
+import AnswersBoolean from "../../src/components/Answers/AnswersBoolean";
 
 export default function quiz() {
   const router = useRouter();
@@ -42,33 +42,33 @@ export default function quiz() {
   });
   const question = data?.results[numberQuestion].question;
 
-
   const shuffleAnswers = () => {
-    if(quizRes?.results[numberQuestion].type == "multiple"){
-    const shuffleAnswer = [
-      data?.results[numberQuestion].correct_answer,
-      data?.results[numberQuestion].incorrect_answers[0],
-      data?.results[numberQuestion].incorrect_answers[1],
-      data?.results[numberQuestion].incorrect_answers[2],
-    ];
-
-    setShuffledAnswer(
-      shuffleAnswer
-        .map((answer) => ({ sort: Math.random(), value: answer }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((obj) => obj.value)
-    )}else{
+    if (data?.results[numberQuestion].type == "multiple") {
       const shuffleAnswer = [
-        quizRes?.results[numberQuestion].correct_answer,
-        quizRes?.results[numberQuestion].incorrect_answers[0],
+        data?.results[numberQuestion].correct_answer,
+        data?.results[numberQuestion].incorrect_answers[0],
+        data?.results[numberQuestion].incorrect_answers[1],
+        data?.results[numberQuestion].incorrect_answers[2],
       ];
-  
+
       setShuffledAnswer(
         shuffleAnswer
           .map((answer) => ({ sort: Math.random(), value: answer }))
           .sort((a, b) => a.sort - b.sort)
           .map((obj) => obj.value)
-      )
+      );
+    } else {
+      const shuffleAnswer = [
+        data?.results[numberQuestion].correct_answer,
+        data?.results[numberQuestion].incorrect_answers[0],
+      ];
+
+      setShuffledAnswer(
+        shuffleAnswer
+          .map((answer) => ({ sort: Math.random(), value: answer }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((obj) => obj.value)
+      );
     }
   };
 
@@ -104,15 +104,14 @@ export default function quiz() {
     if (answer === data?.results[numberQuestion].correct_answer) {
       dispatch(incrementCorrect());
       checkEndHandler(questionNumber);
-
     } else {
       dispatch(incrementIncorrect());
       checkEndHandler(questionNumber);
     }
   };
   const changeNumberQuestion = () => {
-    setNumberQuestion(numberQuestion +1)
-  }
+    setNumberQuestion(numberQuestion + 1);
+  };
 
   console.log(name);
 
@@ -135,18 +134,15 @@ export default function quiz() {
             </Text>
           </Box>
           <Spacer />
-          <Box
-            w="10vw"
-            alignItems="center"
-            justifyItems="center"
-          >
+          <Box w="10vw" alignItems="center" justifyItems="center">
             <CircularProgress
               value={+progress}
               w="10vw"
               size="100%"
               thickness="5px"
-              color="purple.500">
-                <CircularProgressLabel fontSize='3xl'>{`${seconds}`}</CircularProgressLabel>
+              color="purple.500"
+            >
+              <CircularProgressLabel fontSize="3xl">{`${seconds}`}</CircularProgressLabel>
             </CircularProgress>
           </Box>
         </Flex>
@@ -248,9 +244,21 @@ export default function quiz() {
             {data?.results[numberQuestion].incorrect_answers.toString()}
           </Button>
         </Grid>
-      {quizRes?.results[numberQuestion].type == "multiple" ? (
-       <AnswersMultitype numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />) 
-       : (<AnswersBoolean numberQuestion={numberQuestion} shuffledAnswer={shuffledAnswer} checkAnswer={checkAnswer} setNumberQuestion={changeNumberQuestion} />
+      )}
+      {data?.results[numberQuestion].type == "multiple" ? (
+        <AnswersMultitype
+          numberQuestion={numberQuestion}
+          shuffledAnswer={shuffledAnswer}
+          checkAnswer={checkAnswer}
+          setNumberQuestion={changeNumberQuestion}
+        />
+      ) : (
+        <AnswersBoolean
+          numberQuestion={numberQuestion}
+          shuffledAnswer={shuffledAnswer}
+          checkAnswer={checkAnswer}
+          setNumberQuestion={changeNumberQuestion}
+        />
       )}
     </Box>
   );
