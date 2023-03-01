@@ -20,13 +20,8 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useGetCategoryQuery } from "../../store/ApiSlice";
-import { Category } from "../../store/ApiSlice";
+import { useGetCategoryQuery } from "../../store/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  pushCategoryId,
-  pushDifficultyLevel,
-} from "../../store/GameOptionsSlice";
 import { useRouter } from "next/router";
 import CategoryCard from "./CategoryCard";
 

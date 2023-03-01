@@ -10,7 +10,7 @@ import {
   CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useGetQuestionsQuery } from "../../store/ApiSlice";
+import { useGetQuestionsQuery } from "../../store/apiSlice";
 import {
   categoryId,
   difficultyLevel,

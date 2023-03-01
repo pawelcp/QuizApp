@@ -53,7 +53,7 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
     <Modal isOpen={open} onClose={onClose} size="2xl" isCentered>
       <ModalOverlay />
       <ModalContent p="2">
-        <ModalHeader>Choose a difficulty level for your quiz</ModalHeader>
+        <ModalHeader mx='auto' fontSize='2xl'>Choose a difficulty level for your quiz</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Flex justifyContent="center" alignItems="center">
