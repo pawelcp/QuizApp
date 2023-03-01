@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
-import { quizApi } from "./apiSlice";
+import { quizApi } from "./ApiSlice";
 import gameOptionsReducer from "./GameOptionsSlice";
 import gameReducer from "./GameSlice";
 

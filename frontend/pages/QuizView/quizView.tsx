@@ -10,7 +10,7 @@ import {
   CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useGetQuestionsQuery } from "../../store/apiSlice";
+import { useGetQuestionsQuery } from "../../store/ApiSlice";
 import {
   categoryId,
   difficultyLevel,
@@ -18,7 +18,12 @@ import {
 } from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
+import {
+  incrementCorrect,
+  incrementIncorrect,
+  setGameQuestions,
+  setUserAnswers,
+} from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
@@ -41,6 +46,8 @@ export default function quiz() {
     difficultyLevel: selectedDifficultyLvl,
   });
   const question = data?.results[numberQuestion].question;
+
+  setGameQuestions(data?.results);
 
   const shuffleAnswers = () => {
     if (data?.results[numberQuestion].type == "multiple") {
@@ -108,12 +115,11 @@ export default function quiz() {
       dispatch(incrementIncorrect());
       checkEndHandler(questionNumber);
     }
+    setUserAnswers({ questionNumber: questionNumber, answer: answer });
   };
   const changeNumberQuestion = () => {
     setNumberQuestion(numberQuestion + 1);
   };
-
-  console.log(name);
 
   return (
     <Box>
