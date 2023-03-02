@@ -17,7 +17,7 @@ import {
   categoryName,
 } from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import { getUserAnswers, getGameQuestions } from "../../store/GameSlice";
 import {
   incrementCorrect,
   incrementIncorrect,
@@ -34,7 +34,7 @@ export default function quiz() {
   const selectedCategoryId = useSelector(categoryId);
   const selectedDifficultyLvl = useSelector(difficultyLevel);
   const name = useSelector(categoryName);
-
+  const userAnswers = useSelector(getUserAnswers);
   const dispatch = useDispatch();
 
   const [numberQuestion, setNumberQuestion] = useState(0);
@@ -47,7 +47,7 @@ export default function quiz() {
   });
   const question = data?.results[numberQuestion].question;
 
-  setGameQuestions(data?.results);
+  dispatch(setGameQuestions(data?.results));
 
   const shuffleAnswers = () => {
     if (data?.results[numberQuestion].type == "multiple") {
@@ -78,7 +78,7 @@ export default function quiz() {
       );
     }
   };
-
+  console.log(userAnswers);
   useEffect(() => {
     shuffleAnswers();
   }, [data, numberQuestion]);
@@ -86,7 +86,9 @@ export default function quiz() {
   useEffect(() => {
     if (seconds === "00") {
       dispatch(incrementIncorrect());
-
+      dispatch(
+        setUserAnswers({ questionNumber: numberQuestion, answer: "None" })
+      );
       if (numberQuestion === 9) {
         router.push("/QuizView/quizResult").catch((err: any) => {
           throw new Error(err.message);
@@ -115,7 +117,9 @@ export default function quiz() {
       dispatch(incrementIncorrect());
       checkEndHandler(questionNumber);
     }
-    setUserAnswers({ questionNumber: questionNumber, answer: answer });
+    dispatch(
+      setUserAnswers({ questionNumber: questionNumber, answer: answer })
+    );
   };
   const changeNumberQuestion = () => {
     setNumberQuestion(numberQuestion + 1);
@@ -153,104 +157,6 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
-
-      {data?.results[numberQuestion].type == "multiple" ? (
-        <Grid
-          mx="auto"
-          mt="15%"
-          w="90%"
-          templateColumns="repeat(4, 1fr)"
-          gap={2}
-        >
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[0], numberQuestion);
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="yellow"
-          >
-            {decode(shuffledAnswer[0])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[1], numberQuestion);
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="purple"
-          >
-            {decode(shuffledAnswer[1])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[2], numberQuestion);
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="blue"
-          >
-            {decode(shuffledAnswer[2])}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(shuffledAnswer[3], numberQuestion);
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="cyan"
-          >
-            {decode(shuffledAnswer[3])}
-          </Button>
-        </Grid>
-      ) : (
-        <Grid
-          mx="auto"
-          mt="15%"
-          w="60%"
-          templateColumns="repeat(2, 1fr)"
-          gap={2}
-        >
-          <Button
-            onClick={() => {
-              checkAnswer(
-                data?.results[numberQuestion].correct_answer,
-                numberQuestion
-              );
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="yellow"
-          >
-            {data?.results[numberQuestion].correct_answer}
-          </Button>
-          <Button
-            onClick={() => {
-              checkAnswer(
-                data?.results[numberQuestion].incorrect_answers.toString(),
-                numberQuestion
-              );
-            }}
-            textColor="white"
-            fontSize="2xl"
-            w="100%"
-            h="30vh"
-            colorScheme="purple"
-          >
-            {data?.results[numberQuestion].incorrect_answers.toString()}
-          </Button>
-        </Grid>
-      )}
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
           numberQuestion={numberQuestion}
