@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
 
 type GameProps = {
-    numberQuestion: number,
     shuffledAnswer: string[],
     checkAnswer: (answer:string) => void,
-    setNumberQuestion: () => void
+    checkEndHandler: () => void
 
 }
 
-export default function AnswersBoolean({numberQuestion, shuffledAnswer, checkAnswer, setNumberQuestion}: GameProps) {
+export default function AnswersBoolean({ shuffledAnswer, checkAnswer, checkEndHandler}: GameProps) {
 
     
     const router = useRouter()
@@ -27,11 +26,7 @@ export default function AnswersBoolean({numberQuestion, shuffledAnswer, checkAns
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[0]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -44,11 +39,7 @@ export default function AnswersBoolean({numberQuestion, shuffledAnswer, checkAns
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[1]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"

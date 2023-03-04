@@ -43,7 +43,7 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
     dispatch(setCategoryId(convertedId));
     dispatch(setDifficultyLevel(level));
     dispatch(setCategoryName(name));
-    router.push("/QuizView/quizView").catch((err) => {
+    router.push("/game/game").catch((err) => {
       throw new Error("Something went wrong!");
     });
 

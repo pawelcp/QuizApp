@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
 
 type GameProps = {
-    numberQuestion: number,
     shuffledAnswer: string[],
     checkAnswer: (answer:string) => void,
-    setNumberQuestion: () => void
+    checkEndHandler: () => void
 
 }
 
-export default function AnswersMultiType({numberQuestion, shuffledAnswer, checkAnswer, setNumberQuestion}: GameProps) {
+export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEndHandler}: GameProps) {
 
     const router = useRouter()
 
@@ -26,11 +25,7 @@ export default function AnswersMultiType({numberQuestion, shuffledAnswer, checkA
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[0]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -43,11 +38,7 @@ export default function AnswersMultiType({numberQuestion, shuffledAnswer, checkA
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[1]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -60,11 +51,7 @@ export default function AnswersMultiType({numberQuestion, shuffledAnswer, checkA
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[2]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -77,11 +64,7 @@ export default function AnswersMultiType({numberQuestion, shuffledAnswer, checkA
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[3]);
-              if (numberQuestion === 9) {
-                router.push("/QuizView/quizResult");
-              } else {
-                setNumberQuestion()
-              }
+              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
