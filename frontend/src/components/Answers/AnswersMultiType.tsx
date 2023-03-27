@@ -1,4 +1,4 @@
-import { Button, Grid } from "@chakra-ui/react";
+import { Button, Grid, Box, Flex, useBreakpointValue, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
@@ -13,14 +13,24 @@ type GameProps = {
 export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEndHandler}: GameProps) {
 
     const router = useRouter()
+    const [isLargerThan1280] = useMediaQuery('(min-width: 480px)')
+
+    const templateColumns = useBreakpointValue({
+      xs: "repeat(2, 2fr)",
+      sm: "repeat(2, 2fr)",
+      md: "repeat(2, 2fr)",
+      lg: "repeat(4, 1fr)",
+    });
 
     return(
+      <Flex flexDirection='column' h='65vh'>
         <Grid
           mx="auto"
-          mt="15%"
           w="90%"
-          templateColumns="repeat(4, 1fr)"
+          templateColumns={templateColumns}
           gap={2}
+          my='auto'
+          maxH='65vh'
         >
           <Button
             onClick={() => {
@@ -29,11 +39,16 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
             }}
             textColor="white"
             fontSize="2xl"
-            w="100%"
-            h="30vh"
+            maxW="100%"
+            h={{sm:'30vh' , base:'12vh'}}
             colorScheme="yellow"
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+            }}
+            
           >
-            {decode(shuffledAnswer[0])}
+          {decode(shuffledAnswer[0])}
           </Button>
           <Button
             onClick={() => {
@@ -43,8 +58,12 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
             textColor="white"
             fontSize="2xl"
             w="100%"
-            h="30vh"
+            h={{sm:'30vh' , base:'12vh'}}
             colorScheme="purple"
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+            }}
           >
             {decode(shuffledAnswer[1])}
           </Button>
@@ -56,8 +75,12 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
             textColor="white"
             fontSize="2xl"
             w="100%"
-            h="30vh"
+            h={{sm:'30vh' , base:'12vh'}}
             colorScheme="blue"
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+            }}
           >
             {decode(shuffledAnswer[2])}
           </Button>
@@ -69,11 +92,16 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
             textColor="white"
             fontSize="2xl"
             w="100%"
-            h="30vh"
+            h={{sm:'30vh' , base:'12vh'}}
             colorScheme="cyan"
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+            }}
           >
             {decode(shuffledAnswer[3])}
           </Button>
         </Grid>
+        </Flex>
     )
 }

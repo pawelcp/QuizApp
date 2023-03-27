@@ -1,4 +1,4 @@
-import { Button, Grid } from "@chakra-ui/react";
+import { Button, Grid, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";

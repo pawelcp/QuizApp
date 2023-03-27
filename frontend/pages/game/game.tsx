@@ -8,6 +8,7 @@ import {
   Grid,
   Button,
   CircularProgressLabel,
+  
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useGetQuestionsQuery } from "../../store/ApiSlice";
@@ -112,18 +113,17 @@ export default function quiz() {
 
 
   return (
-    <Box>
+    <Flex flexDirection='column' h='100vh'>
+      <Flex flexDirection='column' justifyContent='center' h='35%'>
       <Box
         rounded="xl"
         bg="white"
-        p={[1, 8]}
         my="4"
         w="95%"
         mx="auto"
         shadow="2xl"
-        mt="5%"
       >
-        <Flex flexDirection="row" width="100%" alignItems="center">
+        <Flex  flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
               {decode(question)}
@@ -143,6 +143,8 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
+      </Flex>
+      <Spacer />
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
           shuffledAnswer={shuffledAnswer}
@@ -156,6 +158,7 @@ export default function quiz() {
           checkEndHandler={checkEndHandler}
         />
       )}
-    </Box>
+      
+    </Flex>
   );
 }
