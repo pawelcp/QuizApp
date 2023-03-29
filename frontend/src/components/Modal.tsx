@@ -39,21 +39,21 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
   const convertedId = id.toString();
 
   const playHandler = () => {
-
     dispatch(setCategoryId(convertedId));
     dispatch(setDifficultyLevel(level));
     dispatch(setCategoryName(name));
     router.push("/game/game").catch((err) => {
       throw new Error("Something went wrong!");
     });
-
   };
 
   return (
     <Modal isOpen={open} onClose={onClose} size="2xl" isCentered>
       <ModalOverlay />
       <ModalContent p="2">
-        <ModalHeader mx='auto' fontSize='2xl'>Choose a difficulty level for your quiz</ModalHeader>
+        <ModalHeader mx="auto" fontSize="2xl">
+          Choose a difficulty level for your quiz
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Flex justifyContent="center" alignItems="center">
@@ -132,61 +132,5 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
         </Center>
       </ModalContent>
     </Modal>
-    // <Modal onClose={onClose} isOpen={open} isCentered size="lg">
-    //   <ModalOverlay />
-    //   <ModalContent>
-    //     <ModalHeader>Choose options for your Quiz: {name}</ModalHeader>
-    //     <ModalCloseButton />
-    //     <ModalBody paddingY="10">
-    //       <Flex
-    //         width="full"
-    //         alignItems="center"
-    //         justifyContent="center"
-    //         flexDirection="column"
-    //         gap="5"
-    //       >
-    //         <button
-    //           className={`${styles.button} ${styles.easy}`}
-    //           onClick={() => {
-    //             changeLevelHandler("easy");
-    //           }}
-    //         >
-    //           Easy
-    //         </button>
-    //         <button
-    //           className={`${styles.button} ${styles.medium}`}
-    //           onClick={() => {
-    //             changeLevelHandler("medium");
-    //           }}
-    //         >
-    //           Medium
-    //         </button>
-    //         <button
-    //           className={`${styles.button} ${styles.hard}`}
-    //           onClick={() => {
-    //             changeLevelHandler("hard");
-    //           }}
-    //         >
-    //           Hard
-    //         </button>
-    //       </Flex>
-    //       {/* <Flex justifyContent="center" alignItems="center" gap="8">
-    //         <Button minWidth="32" color="#FFF" size="lg" backgroundColor="#01B636">Easy</Button>
-    //         <Button minWidth="32" color="#FFF" size="lg" backgroundColor="#F0C326">Medium</Button>
-    //         <Button minWidth="32" color="#FFF" size="lg" backgroundColor="#FF3C1F">Hard</Button>
-    //       </Flex> */}
-    //     </ModalBody>
-    //     <ModalFooter>
-    //       <Center width="full" marginX="auto">
-    //         <button
-    //           onClick={playHandler}
-    //           className={`${styles.button} ${styles["play-again"]}`}
-    //         >
-    //           Play!
-    //         </button>
-    //       </Center>
-    //     </ModalFooter>
-    //   </ModalContent>
-    // </Modal>
   );
 }

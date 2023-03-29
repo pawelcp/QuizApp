@@ -4,6 +4,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import {
   correctAnswers,
+  getGameQuestions,
   incorrectAnswers,
   resetGame,
 } from "../../store/GameSlice";
@@ -15,10 +16,9 @@ export default function quizResult() {
   const incorrect = useSelector(incorrectAnswers);
   const name = useSelector(categoryName);
   const selectedDifficultyLevel = useSelector(difficultyLevel);
-
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const questions = useSelector(getGameQuestions);
   const resetGameHandler = (url: string) => {
     dispatch(resetGame());
     router.push(url).catch((err) => {
@@ -26,7 +26,7 @@ export default function quizResult() {
     });
   };
 
-
+  console.log(questions);
   return (
     <Box>
       <Box>

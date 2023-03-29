@@ -9,7 +9,7 @@ interface CategoryResponse {
   trivia_categories: Category[];
 }
 
-interface Results {
+export interface Results {
   category: string;
   correct_answer: string;
   difficulty: string;
