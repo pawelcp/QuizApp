@@ -180,7 +180,7 @@ export default function quizResult() {
         <Flex alignItems="center" justifyContent="center">
           <Button
             onClick={() => {
-              resetGameHandler("/QuizView/quizView");
+              resetGameHandler("/game/game");
             }}
             textColor="white"
             fontSize="xl"
