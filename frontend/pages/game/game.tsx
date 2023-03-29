@@ -8,10 +8,9 @@ import {
   Grid,
   Button,
   CircularProgressLabel,
-  
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useGetQuestionsQuery } from "../../store/ApiSlice";
+import { useGetQuestionsQuery } from "../../store/apiSlice";
 import {
   categoryId,
   difficultyLevel,
@@ -82,7 +81,7 @@ export default function quiz() {
       dispatch(incrementIncorrect());
 
       if (numberQuestion === 9) {
-        router.push("/game/result").catch((err: any) => {
+        router.push("/QuizView/quizResult").catch((err: any) => {
           throw new Error(err.message);
         });
       } else {
@@ -91,9 +90,9 @@ export default function quiz() {
     }
   }, [seconds]);
 
-  const checkEndHandler = () => {
-    if (numberQuestion === 9) {
-      router.push("/game/result").catch((err: any) => {
+  const checkEndHandler = (questionNumber?: number) => {
+    if (questionNumber === 9) {
+      router.push("/QuizView/quizResult").catch((err: any) => {
         throw new Error(err.message);
       });
     } else {
@@ -101,29 +100,34 @@ export default function quiz() {
     }
   };
 
-  const checkAnswer = (answer?: string) => {
+  const checkAnswer = (answer?: string, questionNumber?: number) => {
     if (answer === data?.results[numberQuestion].correct_answer) {
       dispatch(incrementCorrect());
-      checkEndHandler();
+      checkEndHandler(questionNumber);
     } else {
       dispatch(incrementIncorrect());
-      checkEndHandler();
+      checkEndHandler(questionNumber);
     }
   };
+  const changeNumberQuestion = () => {
+    setNumberQuestion(numberQuestion + 1);
+  };
 
+  console.log(name);
 
   return (
-    <Flex flexDirection='column' h='100vh'>
-      <Flex flexDirection='column' justifyContent='center' h='35%'>
+    <Box>
       <Box
         rounded="xl"
         bg="white"
+        p={[1, 8]}
         my="4"
         w="95%"
         mx="auto"
         shadow="2xl"
+        mt="5%"
       >
-        <Flex  flexDirection="row" width="100%" alignItems="center">
+        <Flex flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
               {decode(question)}
@@ -143,22 +147,119 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
-      </Flex>
-      <Spacer />
+
+      {data?.results[numberQuestion].type == "multiple" ? (
+        <Grid
+          mx="auto"
+          mt="15%"
+          w="90%"
+          templateColumns="repeat(4, 1fr)"
+          gap={2}
+        >
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[0], numberQuestion);
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="yellow"
+          >
+            {decode(shuffledAnswer[0])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[1], numberQuestion);
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="purple"
+          >
+            {decode(shuffledAnswer[1])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[2], numberQuestion);
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="blue"
+          >
+            {decode(shuffledAnswer[2])}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(shuffledAnswer[3], numberQuestion);
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="cyan"
+          >
+            {decode(shuffledAnswer[3])}
+          </Button>
+        </Grid>
+      ) : (
+        <Grid
+          mx="auto"
+          mt="15%"
+          w="60%"
+          templateColumns="repeat(2, 1fr)"
+          gap={2}
+        >
+          <Button
+            onClick={() => {
+              checkAnswer(
+                data?.results[numberQuestion].correct_answer,
+                numberQuestion
+              );
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="yellow"
+          >
+            {data?.results[numberQuestion].correct_answer}
+          </Button>
+          <Button
+            onClick={() => {
+              checkAnswer(
+                data?.results[numberQuestion].incorrect_answers.toString(),
+                numberQuestion
+              );
+            }}
+            textColor="white"
+            fontSize="2xl"
+            w="100%"
+            h="30vh"
+            colorScheme="purple"
+          >
+            {data?.results[numberQuestion].incorrect_answers.toString()}
+          </Button>
+        </Grid>
+      )}
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
+          numberQuestion={numberQuestion}
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-          checkEndHandler={checkEndHandler}
+          setNumberQuestion={changeNumberQuestion}
         />
       ) : (
         <AnswersBoolean
+          numberQuestion={numberQuestion}
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-          checkEndHandler={checkEndHandler}
+          setNumberQuestion={changeNumberQuestion}
         />
       )}
-      
-    </Flex>
+    </Box>
   );
 }
