@@ -10,7 +10,7 @@ import {
   CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useGetQuestionsQuery } from "../../store/apiSlice";
+import { useGetQuestionsQuery } from "../../store/ApiSlice";
 import {
   categoryId,
   difficultyLevel,
@@ -92,7 +92,7 @@ export default function quiz() {
 
   const checkEndHandler = (questionNumber?: number) => {
     if (questionNumber === 9) {
-      router.push("/QuizView/quizResult").catch((err: any) => {
+      router.push("/game/result").catch((err: any) => {
         throw new Error(err.message);
       });
     } else {
