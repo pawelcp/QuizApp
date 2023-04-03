@@ -127,6 +127,7 @@ export default function quiz() {
         shadow="2xl"
         mt="5%"
       >
+        <>
        <Flex flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
@@ -146,6 +147,7 @@ export default function quiz() {
             </CircularProgress>
           </Box>
         </Flex>
+        </>
       </Box>
 
       {data?.results[numberQuestion].type == "multiple" ? (
