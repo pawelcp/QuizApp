@@ -18,7 +18,7 @@ import {
 } from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
+import { incrementCorrect, incrementIncorrect, setUserAnswers, setGameQuestions } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
@@ -147,6 +147,7 @@ export default function quiz() {
           </Box>
         </Flex>
       </Box>
+
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
           numberQuestion={numberQuestion}
