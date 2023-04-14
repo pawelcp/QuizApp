@@ -6,11 +6,10 @@ import { decode } from "html-entities";
 type GameProps = {
     shuffledAnswer: string[],
     checkAnswer: (answer:string) => void,
-    checkEndHandler: () => void
 
 }
 
-export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEndHandler}: GameProps) {
+export default function AnswersMultiType({ shuffledAnswer, checkAnswer}: GameProps) {
 
     const router = useRouter()
     const [isLargerThan1280] = useMediaQuery('(min-width: 480px)')
@@ -35,7 +34,6 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[0]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -53,7 +51,6 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[1]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -70,7 +67,6 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[2]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -87,7 +83,6 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer, checkEnd
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[3]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"

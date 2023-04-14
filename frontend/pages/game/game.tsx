@@ -149,7 +149,6 @@ export default function quiz() {
         <AnswersMultitype
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-          checkEndHandler={checkEndHandler}
         />
       ) : (
         <AnswersBoolean

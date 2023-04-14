@@ -1,4 +1,4 @@
-import { Button, Grid, Text } from "@chakra-ui/react";
+import { Button, Grid, Text, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
@@ -16,13 +16,7 @@ export default function AnswersBoolean({ shuffledAnswer, checkAnswer, checkEndHa
     const router = useRouter()
 
     return(
-        <Grid
-          mx="auto"
-          mt="15%"
-          w="60%"
-          templateColumns="repeat(2, 1fr)"
-          gap={2}
-        >
+      <Flex w='60vw' flexDirection={{base:'column', sm:'row'}} gap='2%' h={{base:'65vh', sm:'45vh'}} alignSelf='center' justifySelf='center'>
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[0]);
@@ -49,6 +43,6 @@ export default function AnswersBoolean({ shuffledAnswer, checkAnswer, checkEndHa
           >
             {decode(shuffledAnswer[1])}
           </Button>
-        </Grid>
+        </Flex>
     )
 }
