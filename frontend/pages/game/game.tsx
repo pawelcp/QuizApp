@@ -8,6 +8,7 @@ import {
   Grid,
   Button,
   CircularProgressLabel,
+  
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useGetQuestionsQuery } from "../../store/ApiSlice";
@@ -18,7 +19,7 @@ import {
 } from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { incrementCorrect, incrementIncorrect, setUserAnswers, setGameQuestions } from "../../store/GameSlice";
+import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
@@ -81,7 +82,7 @@ export default function quiz() {
       dispatch(incrementIncorrect());
 
       if (numberQuestion === 9) {
-        router.push("/QuizView/quizResult").catch((err: any) => {
+        router.push("/game/result").catch((err: any) => {
           throw new Error(err.message);
         });
       } else {
@@ -90,8 +91,8 @@ export default function quiz() {
     }
   }, [seconds]);
 
-  const checkEndHandler = (questionNumber?: number) => {
-    if (questionNumber === 9) {
+  const checkEndHandler = () => {
+    if (numberQuestion === 9) {
       router.push("/game/result").catch((err: any) => {
         throw new Error(err.message);
       });
@@ -100,35 +101,29 @@ export default function quiz() {
     }
   };
 
-  const checkAnswer = (answer?: string, questionNumber?: number) => {
+  const checkAnswer = (answer?: string) => {
     if (answer === data?.results[numberQuestion].correct_answer) {
       dispatch(incrementCorrect());
-      checkEndHandler(questionNumber);
+      checkEndHandler();
     } else {
       dispatch(incrementIncorrect());
-      checkEndHandler(questionNumber);
+      checkEndHandler();
     }
   };
-  const changeNumberQuestion = () => {
-    setNumberQuestion(numberQuestion + 1);
-  };
 
-  console.log(name);
 
   return (
-    <Box>
+    <Flex flexDirection='column' h='100vh'>
+      <Flex flexDirection='column' justifyContent='center' h='35%'>
       <Box
         rounded="xl"
         bg="white"
-        p={[1, 8]}
         my="4"
         w="95%"
         mx="auto"
         shadow="2xl"
-        mt="5%"
       >
-        <>
-       <Flex flexDirection="row" width="100%" alignItems="center">
+        <Flex  flexDirection="row" width="100%" alignItems="center">
           <Box w="70vw">
             <Text textAlign="center" fontSize="3xl">
               {decode(question)}
@@ -147,14 +142,13 @@ export default function quiz() {
             </CircularProgress>
           </Box>
         </Flex>
-        </>
       </Box>
-
+      </Flex>
+      <Spacer />
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-
         />
       ) : (
         <AnswersBoolean
@@ -162,6 +156,7 @@ export default function quiz() {
           checkAnswer={checkAnswer}
         />
       )}
-    </Box>
+      
+    </Flex>
   );
 }
