@@ -152,17 +152,15 @@ export default function quiz() {
 
       {data?.results[numberQuestion].type == "multiple" ? (
         <AnswersMultitype
-          numberQuestion={numberQuestion}
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-          setNumberQuestion={changeNumberQuestion}
+
         />
       ) : (
         <AnswersBoolean
-          numberQuestion={numberQuestion}
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-          setNumberQuestion={changeNumberQuestion}
+
         />
       )}
     </Box>
