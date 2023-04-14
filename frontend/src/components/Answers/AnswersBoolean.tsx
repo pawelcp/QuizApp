@@ -6,20 +6,15 @@ import { decode } from "html-entities";
 import { number } from "prop-types";
 
 type GameProps = {
-  numberQuestion: number;
   shuffledAnswer: string[];
   checkAnswer: (
-    answer: string | undefined,
-    numberQuestion: number | undefined
+    answer: string,
   ) => void;
-  setNumberQuestion: () => void;
 };
 
 export default function AnswersBoolean({
-  numberQuestion,
   shuffledAnswer,
   checkAnswer,
-  setNumberQuestion,
 }: GameProps) {
 
 
@@ -30,7 +25,6 @@ export default function AnswersBoolean({
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[0]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"
@@ -43,7 +37,6 @@ export default function AnswersBoolean({
           <Button
             onClick={() => {
               checkAnswer(shuffledAnswer[1]);
-              checkEndHandler()
             }}
             textColor="white"
             fontSize="2xl"

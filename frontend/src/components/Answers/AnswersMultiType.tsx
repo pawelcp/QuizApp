@@ -1,4 +1,4 @@
-import { Button, Grid } from "@chakra-ui/react";
+import { Button, Grid, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
@@ -14,7 +14,6 @@ type GameProps = {
 export default function AnswersMultiType({ shuffledAnswer, checkAnswer}: GameProps) {
 
     const router = useRouter()
-    const [isLargerThan1280] = useMediaQuery('(min-width: 480px)')
 
     const templateColumns = useBreakpointValue({
       xs: "repeat(2, 2fr)",

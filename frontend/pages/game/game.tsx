@@ -160,7 +160,6 @@ export default function quiz() {
         <AnswersBoolean
           shuffledAnswer={shuffledAnswer}
           checkAnswer={checkAnswer}
-
         />
       )}
     </Box>
