@@ -1,19 +1,29 @@
+
 import { Button, Grid, Text, Flex } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
+import { number } from "prop-types";
 
 type GameProps = {
-    shuffledAnswer: string[],
-    checkAnswer: (answer:string) => void,
-    checkEndHandler: () => void
+  numberQuestion: number;
+  shuffledAnswer: string[];
+  checkAnswer: (
+    answer: string | undefined,
+    numberQuestion: number | undefined
+  ) => void;
+  setNumberQuestion: () => void;
+};
 
-}
+export default function AnswersBoolean({
+  numberQuestion,
+  shuffledAnswer,
+  checkAnswer,
+  setNumberQuestion,
+}: GameProps) {
 
-export default function AnswersBoolean({ shuffledAnswer, checkAnswer, checkEndHandler}: GameProps) {
 
-    
-    const router = useRouter()
+
 
     return(
       <Flex w='60vw' flexDirection={{base:'column', sm:'row'}} gap='2%' h={{base:'65vh', sm:'45vh'}} alignSelf='center' justifySelf='center'>

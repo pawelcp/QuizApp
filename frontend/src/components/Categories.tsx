@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useGetCategoryQuery } from "../../store/apiSlice";
+import { useGetCategoryQuery } from "../../store/ApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import CategoryCard from "./CategoryCard";

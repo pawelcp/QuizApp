@@ -1,9 +1,11 @@
-import { Button, Grid, Box, Flex, useBreakpointValue, useMediaQuery } from "@chakra-ui/react";
+import { Button, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { decode } from "html-entities";
+import { number } from "prop-types";
 
 type GameProps = {
+
     shuffledAnswer: string[],
     checkAnswer: (answer:string) => void,
 
@@ -100,3 +102,4 @@ export default function AnswersMultiType({ shuffledAnswer, checkAnswer}: GamePro
         </Flex>
     )
 }
+
