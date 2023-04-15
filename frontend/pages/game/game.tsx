@@ -19,7 +19,7 @@ import {
 } from "../../store/GameOptionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { incrementCorrect, incrementIncorrect } from "../../store/GameSlice";
+import { incrementCorrect, incrementIncorrect, setGameQuestions, UserAnswer } from "../../store/GameSlice";
 import { useRouter } from "next/router";
 import { decode } from "html-entities";
 import AnswersMultitype from "../../src/components/Answers/AnswersMultiType";
@@ -42,6 +42,7 @@ export default function quiz() {
     difficultyLevel: selectedDifficultyLvl,
   });
   const question = data?.results[numberQuestion].question;
+  
 
   const shuffleAnswers = () => {
     if (data?.results[numberQuestion].type == "multiple") {
@@ -93,6 +94,7 @@ export default function quiz() {
 
   const checkEndHandler = () => {
     if (numberQuestion === 9) {
+      dispatch(setGameQuestions(data?.results))
       router.push("/game/result").catch((err: any) => {
         throw new Error(err.message);
       });

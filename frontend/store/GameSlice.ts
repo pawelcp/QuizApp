@@ -2,15 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import { Results } from "./ApiSlice";
 
-interface UserAnswer {
+export interface UserAnswer {
   questionNumber: number | undefined;
   answer: string | undefined;
 }
 export const gameSlice = createSlice({
   name: "result",
   initialState: {
-    correct: 0,
-    incorrect: 0,
+    correct: 10,
+    incorrect: 10,
     userAnswers: [] as UserAnswer[],
     gameQuestions: [] as unknown as Results,
   },

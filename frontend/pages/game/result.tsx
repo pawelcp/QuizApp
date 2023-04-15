@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Grid, GridItem, Spacer, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { AiOutlineHome } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -19,6 +19,8 @@ export default function quizResult() {
   const router = useRouter();
   const dispatch = useDispatch();
   const questions = useSelector(getGameQuestions);
+  
+
   const resetGameHandler = (url: string) => {
     dispatch(resetGame());
     router.push(url).catch((err) => {
@@ -106,76 +108,19 @@ export default function quizResult() {
           </Box>
         </Flex>
       </Box>
-      <Box mt="15vh" h="27vh">
-        <Flex alignItems="end" h="27vh" justifyContent="center">
-          <Box
-            rounded="md"
-            mr="9.5vw"
-            h={`${correct}0%`}
-            w="5vw"
-            bg="green"
-          ></Box>
-          <Box
-            rounded="md"
-            ml="9.5vw"
-            h={`${incorrect}0%`}
-            w="5vw"
-            bg="red"
-          ></Box>
-        </Flex>
-      </Box>
-      <Box>
-        <Flex alignItems="center" justifyContent="center">
-          <Box
-            fontSize="xl"
-            textColor="green"
-            fontWeight="bold"
-            textAlign="center"
-            rounded="md"
-            mr="9vw"
-            w="6vw"
-          >
-            Correct
-          </Box>
-          <Box
-            fontSize="xl"
-            textColor="red"
-            fontWeight="bold"
-            textAlign="center"
-            rounded="md"
-            ml="9vw"
-            w="6vw"
-          >
-            Incorrect
-          </Box>
-        </Flex>
-      </Box>
-      <Box>
-        <Flex alignItems="center" justifyContent="center">
-          <Box
-            fontSize="4xl"
-            textColor="green"
-            fontWeight="bold"
-            textAlign="center"
-            rounded="md"
-            mr="9vw"
-            w="6vw"
-          >
-            {correct}
-          </Box>
-          <Box
-            fontSize="4xl"
-            textColor="red"
-            fontWeight="bold"
-            textAlign="center"
-            rounded="md"
-            ml="9vw"
-            w="6vw"
-          >
-            {incorrect}
-          </Box>
-        </Flex>
-      </Box>
+      <Flex mx='auto' alignSelf='center' justifySelf='center' w='90vw' gap='10' my='10vh' flexDirection='column'>
+             <Flex justifyItems='center' alignItems='center' h='10vh' w='100%'>
+              <Box h='100%' bg='green' w='20%'>qwe</Box>
+              <Box h='50%' bg='red' w='80%'>qwe</Box>
+            </Flex>
+            <Flex justifyItems='center' alignItems='center' h='10vh' w='100%'>
+              <Box h='100%' bg='green' w='20%'>qwe</Box>
+              <Box h='50%' bg='red' w='80%'>qwe</Box>
+            </Flex>
+      </Flex>
+      <Flex h='10vh' my='2vh' justifyContent="center" alignItems="center">
+        <Button >view correct answers</Button>
+      </Flex>
       <Box mt="5vh">
         <Flex alignItems="center" justifyContent="center">
           <Button
