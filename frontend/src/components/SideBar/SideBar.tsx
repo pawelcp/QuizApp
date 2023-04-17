@@ -59,7 +59,7 @@ const SideBar = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="b" fontSize="3xl">
+        <Text as="b" fontSize="3xl" bgGradient='linear(to-l, #7928CA, #FF0080)' bgClip='text'>
           Quizziz
         </Text>
       </Flex>

@@ -9,10 +9,10 @@ export interface UserAnswer {
 export const gameSlice = createSlice({
   name: "result",
   initialState: {
-    correct: 10,
-    incorrect: 10,
+    correct: 6,
+    incorrect: 4,
     userAnswers: [] as UserAnswer[],
-    gameQuestions: [] as unknown as Results,
+    gameQuestions: [] as unknown as Results[],
   },
   reducers: {
     incrementCorrect: (state) => {

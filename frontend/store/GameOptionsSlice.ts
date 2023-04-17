@@ -5,8 +5,8 @@ export const gameOptionsSlice = createSlice({
   name: "gameOptions",
   initialState: {
     categoryId: "",
-    categoryName: "",
-    difficultyLevel: "",
+    categoryName: "qweqwe qweqwe",
+    difficultyLevel: "MEDIUM",
   },
   reducers: {
     setCategoryId: (state, action) => {

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Grid, GridItem, Spacer, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Grid, GridItem, Spacer, Text, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { AiOutlineHome } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import {
 } from "../../store/GameSlice";
 import { difficultyLevel, categoryName } from "../../store/GameOptionsSlice";
 import { useDispatch } from "react-redux";
+import ResultModal from "../../src/components/ResultModal";
 
 export default function quizResult() {
   const correct = useSelector(correctAnswers);
@@ -18,7 +19,7 @@ export default function quizResult() {
   const selectedDifficultyLevel = useSelector(difficultyLevel);
   const router = useRouter();
   const dispatch = useDispatch();
-  const questions = useSelector(getGameQuestions);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
 
   const resetGameHandler = (url: string) => {
@@ -28,7 +29,6 @@ export default function quizResult() {
     });
   };
 
-  console.log(questions);
   return (
     <Box>
       <Box>
@@ -38,27 +38,30 @@ export default function quizResult() {
               onClick={() => {
                 resetGameHandler("/");
               }}
+              textColor="white"
               fontSize="xl"
-              bg="white"
+              bg="purple.500"
               shadow="2xl"
-              border="2px"
-              mr="30vw"
               w="15vw"
               h="9vh"
+              mt='3'
+              mx='5'
             >
               Home page <AiOutlineHome style={{ marginLeft: "6px" }} />
             </Button>
+            <Spacer></Spacer>
             <Button
               onClick={() => {
                 resetGameHandler("/userProfile");
               }}
+              textColor="white"
               fontSize="xl"
-              bg="white"
+              bg="purple.500"
               shadow="2xl"
-              border="2px"
-              ml="30vw"
               w="15vw"
               h="9vh"
+              mt='3'
+              mx='5'
             >
               Your profile <Avatar size="sm" ml="4"></Avatar>
             </Button>
@@ -108,21 +111,30 @@ export default function quizResult() {
           </Box>
         </Flex>
       </Box>
-      <Flex mx='auto' alignSelf='center' justifySelf='center' w='90vw' gap='10' my='10vh' flexDirection='column'>
+      <Flex mx='auto' alignSelf='center' justifySelf='center' w='75vw' gap='10' my='10vh' flexDirection='column'>
              <Flex justifyItems='center' alignItems='center' h='10vh' w='100%'>
-              <Box h='100%' bg='green' w='20%'>qwe</Box>
-              <Box h='50%' bg='red' w='80%'>qwe</Box>
+              <Flex h='100%' w='20%'  justifyItems='center' alignItems='center'>
+                <Text fontWeight='bold' fontSize='3xl' color='green' mx='auto'>Correct {correct}</Text>
+              </Flex>
+              <Box h='50%' w='80%' rounded='md' bg='blackAlpha.400' shadow='2xl'>
+                <Flex rounded='md' textAlign='center' alignItems='center' justifyContent='center' textColor='white' fontSize='2xl'  bg='green' h='100%' w={`${correct}0%`}><Text>{`${correct}0%`}</Text></Flex>
+              </Box>
             </Flex>
             <Flex justifyItems='center' alignItems='center' h='10vh' w='100%'>
-              <Box h='100%' bg='green' w='20%'>qwe</Box>
-              <Box h='50%' bg='red' w='80%'>qwe</Box>
+              <Flex h='100%' w='20%' justifyItems='center' alignItems='center'>
+                <Text fontWeight='bold' fontSize='3xl' color='red' mx='auto'>Incorrect {incorrect}</Text>
+              </Flex>
+              <Box h='50%' w='80%' rounded='md' bg='blackAlpha.400' shadow='2xl'>
+                <Flex rounded='md' alignItems='center' justifyContent='center' textAlign='center' textColor='white' fontSize='2xl' bg='red' h='100%' w={`${incorrect}0%`}><Text>{`${incorrect}0%`}</Text></Flex>
+              </Box>
             </Flex>
       </Flex>
       <Flex h='10vh' my='2vh' justifyContent="center" alignItems="center">
-        <Button >view correct answers</Button>
+        <Button p='5' onClick={onOpen}>View answers</Button>
       </Flex>
       <Box mt="5vh">
         <Flex alignItems="center" justifyContent="center">
+          
           <Button
             onClick={() => {
               resetGameHandler("/game/game");
@@ -138,6 +150,7 @@ export default function quizResult() {
           </Button>
         </Flex>
       </Box>
+      <ResultModal onClose={onClose} open={isOpen} />
     </Box>
   );
 }

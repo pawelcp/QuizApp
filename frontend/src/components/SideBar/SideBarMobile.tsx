@@ -64,7 +64,7 @@ const SideBarMobile = ({ isOpen, onSlideOut }: SideBarMobileProps) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="b" fontSize="2xl">
+        <Text as="b" fontSize="2xl" bgClip='text' bgGradient='linear(to-l, #7928CA, #FF0080)'>
           Quizziz
         </Text>
       </Flex>
