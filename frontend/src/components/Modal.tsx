@@ -12,11 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { resetGame } from "../../store/GameSlice";
 
 import {
   setCategoryId,
   setCategoryName,
-  setDifficultyLevel,
+  setDifficultyLevel
 } from "../../store/GameOptionsSlice";
 
 import { useRouter } from "next/router";
@@ -42,6 +43,7 @@ export default function ModalElement({ onClose, open, name, id }: ModalProps) {
     dispatch(setCategoryId(convertedId));
     dispatch(setDifficultyLevel(level));
     dispatch(setCategoryName(name));
+    dispatch(resetGame());
     router.push("/game/game").catch((err) => {
       throw new Error("Something went wrong!");
     });

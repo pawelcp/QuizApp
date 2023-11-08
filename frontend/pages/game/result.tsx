@@ -130,7 +130,7 @@ export default function quizResult() {
             </Flex>
       </Flex>
       <Flex h='10vh' my='2vh' justifyContent="center" alignItems="center">
-        <Button p='5' onClick={onOpen}>View answers</Button>
+        <Button p='5' onClick={onOpen}>Show questions</Button>
       </Flex>
       <Box mt="5vh">
         <Flex alignItems="center" justifyContent="center">
